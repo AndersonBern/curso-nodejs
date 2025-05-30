@@ -1,2 +1,79 @@
 NODEJS
 
+O nodeJS é um programa que lê e interpreta JavaScript na sua 
+maquina. Funciona em módulos e pacotes.
+
+
+NO TERMINAL(Crtl + '')
+
+cls: Para limpar o terminal.
+
+node nomeDoArquivo.js: Para executar o seu código JS.
+
+
+PALAVRAS-CHAVE
+
+* Globais: Funciona em qualquer parte do escopo do meu projeto.
+
+	- process : Objeto que fornece unformações sobre o 
+		    processo que está sendo executado.
+
+	- console : Semelhante ao navegador. Fornece Retorno.
+
+
+* Pseudo-Globais: Funciona no escopo do arquivo que está sendo 
+  		  executado.
+
+	- module : Objeto que pertence ao sistema de modulos 
+		   do node.
+
+	- __filename : A palavra-chave que contém o caminho 
+		       do arquivo de execução atual. 
+
+	- __dirname : A palavra-chave que contém o caminho para 
+		      o diretório raiz atual.
+
+	- require() : Função que permite incluir módulos válidos.
+
+
+
+MÓDULOS / PACOTES
+
+1 - Módulos incorporados -> Built-in Modules (NATIVOS).
+
+2 - Módulos Locais -> Local Modules (QUE A GENTE CONSTRÓI).
+
+3 - Módulos de Terceiros -> Third Party Modules 
+   (QUE OUTROS FIZERAM).
+
+
+PARA FAZER UM REQUERIMENTO DE MODULOS LOCAIS:
+
+1- Você vai criar um código com algo como uma função, por exemplo.
+   E você vai exportar essa função em MODULO como um OBJETO{}:
+
+	ex.: 
+		function somar(a, b) {
+    			return a + b;
+		}
+
+		module.exports = {somar};
+
+	OBS.: SEMPRE EXPORTE A FUNÇÃO COMO UM OBJETO.
+
+3- Depois de exportar o modulo com a função, EM OUTRO ARQUIVO,
+   você vai fazer o REQUERIMENTO deste modulo.
+
+	ex.: const calculo = require('localDoArquivo.js');
+
+	OBS.: SEMPRE FAÇA O REQUERIMENTO DENTRO DE UMA 
+	      VARIAVEL OU CONSTANTE. 
+	      
+4- Para chamar a função do modulo que foi requerido use:
+   - nomeDaVariavel.nomeDaFunção().
+
+	ex.: calculo.somar(5, 2).
+
+4- Pronto, você fez um requerimento de uma função que estava 
+   em outro arquivo.
+	
