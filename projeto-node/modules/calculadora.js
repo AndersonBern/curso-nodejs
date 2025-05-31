@@ -1,9 +1,22 @@
-function somar(a, b) {
+/*function somar(a, b) {
     return a + b;
 }
 
 function subtrair(a, b) {
     return a - b;
+}*/
+
+const calculadora = {
+    somar: function(a, b){
+        return a + b;
+    },
+    subtrair: function(a, b) {
+        return a - b;
+    }
 }
 
-module.exports = {somar, subtrair};
+export {calculadora};
+
+export function multiplicar(a, b) {
+    return a * b;
+}

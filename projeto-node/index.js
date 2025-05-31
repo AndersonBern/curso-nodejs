@@ -1,4 +1,5 @@
-const calc = require('./modules/calculadora.js');
+import {calculadora, multiplicar} from './modules/calculadora.js'
 
-console.log(calc.somar(5, 2));
-console.log(calc.subtrair(5, 2));
+console.log(calculadora.somar(5, 2));
+console.log(calculadora.subtrair(5, 2));
+console.log(multiplicar(5, 2));

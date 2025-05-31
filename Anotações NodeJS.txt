@@ -76,4 +76,128 @@ PARA FAZER UM REQUERIMENTO DE MODULOS LOCAIS:
 
 4- Pronto, você fez um requerimento de uma função que estava 
    em outro arquivo.
+
+
+
+
+MÉTODO MAIS MODERNO PARA EXPORTAR E IMPORTAR MODULOS
+
+* export {objeto}: Para exportar o modulo.
+
+* import {objeto} from './localDoArquivo.js' : Para importar o 
+					     modulo.
+
+
+PARA EXPORTAR O OBJETO {CALCULADORA}:
+
+ex.: const calculadora = {
+    	somar: function(a, b){
+        return a + b;
+    	}
+     }
+
+     export {calculadora};
+
 	
+
+PARA IMPORTAR O MODULO {CALCULADORA}:
+
+ex.: import {calculadora} from './modules/calculadora.js';
+
+OBS.: Você pode importar quantos modulos quiser dentro das chaves. 
+
+
+PARA CHAMAR O MODULO {CALCULADORA}:
+
+ex.: console.log(calculadora.somar(5, 2));
+
+
+
+MODULOS NATIVOS
+
+http : Modulo de WEB SERVER.
+
+    * PARA CRIAR UM SERVER:
+
+	1- Importa e faz a requisição do modulo 'http'.
+
+		- const http = require('http');
+
+
+	2- É necessário dar 2 parametros para o servidor:
+
+		- HOSTNAME(Local onde o servidor é hospedado).
+
+		- PORTA(é a porta de acesso, para conceder a 
+	   	  permissão para acessar o servidor).
+
+
+	3- Cria o HOSTNAME.
+
+		- const hostname = '127.0.0.1';
+
+		O endereço de IP: 127.0.0.1 é o endereço padrão 
+		para uma maquina local. Também pode se usar o 
+		valor: 'localhost'.
+
+
+	4- Cria a PORTA.
+
+		- const PORT = process.env.PORT || 3000;
+
+		Por padrão cria-se a constante/variável em letras
+		maiúculas.
+
+		* process.env :
+		É um objeto que contém as variáveis de ambiente do
+		sistema em que o Node.js está sendo executado. 
+		
+		* .PORT :	
+		Refere-se a uma constante/variável de ambiente que
+		define o número da porta que um servidor ou 
+		aplicação web deve usar para ouvir conexões de 
+		rede.
+
+		* || 3000 : 
+		Refere-se a uma porta padrão caso a porta definida
+		anteriormente não funcione. Lê-se: OU porta 3000.
+
+	5- Cria o SERVIDOR.
+
+		- const server = http.createServer(
+    			function(req, res){
+        
+    			}
+		  );
+
+		* http.createServer() :
+		Com o modulo 'http' utilizamos o método 
+		'.createServer()' para criar o servidor, e dentro
+		dos parenteses definimos oque vai acontecer quando
+		o servidor for chamado.
+
+		* function(req, res){} :
+		A função que vai ser executada. e os parametros:
+		'req' = REQUISIÇÃO, 'res' = RESPOSTA. 
+		Para determinar o que vai receber como requisição
+		do servidor e a resposta do servidor.
+
+	6- inicializar o SERVIDOR.
+
+		- server.listen(PORT, hostname, function(){
+    			console.log(`Servidor rodando em: 
+			http//:${hostname}:${PORT}`)
+		  })
+
+		* server.listen() :
+		Para inicializar o servidor. E dentro do método
+		vão 3 parametros: 
+			-> PORTA;
+			-> HOSTNAME;
+			-> FUNÇÃO DE RETORNO.
+		(Para determinar oq vai acontecer quando SERVER 
+		for iniciado.)
+		Que no caso vai ser um 'console.log'.
+
+
+
