@@ -13,10 +13,10 @@ const server = http.createServer(
             res.setHeader('Content-type', 'text/html');
             res.end('<h1>Hello world!</h1>');
         }
-        if (url ==='/sobre'){
+        if (url ==='/teste'){
             res.statusCode = 200;
             res.setHeader('Content-type', 'text/html; charset= utf-8');
-            res.end('<h1>Página SOBRE!</h1>');
+            res.end('<h1>Página teste!</h1>');
         }
         
     }

@@ -200,55 +200,57 @@ http : Modulo de WEB SERVER.
 		Que no caso vai ser um 'console.log'.
 
 
-PARA ADICIONAR UMA RESPOSTA NO SERVIDOR:
+	PARA ADICIONAR UMA RESPOSTA NO SERVIDOR:
 
-ex.: const server = http.createServer(
-     	function(req, res){
-        	res.statusCode = 200;
-    	}
-     );
+	ex.: const server = http.createServer(
+     		function(req, res){
+        		res.statusCode = 200;
+    		}
+     	     );
 
-O parametro 'res' é para a resposta. E com o metodo '.statusCode'
-damos um código que pode significar algumas coisas como:
+	O parametro 'res' é para a resposta. E com o metodo '.statusCode'
+	damos um código que pode significar algumas coisas como:
 	
-	- res.statusCode = 200; : OK.
+		- res.statusCode = 200; : OK.
 
-	- res.statusCode = 201; : Created, Para requisições tipo
-	 			 POST.
+		- res.statusCode = 201; : Created, Para 
+					  requisições tipo POST.
 
-	- res.statusCode = 404; : NOT FOUND.
+		- res.statusCode = 404; : NOT FOUND.
 
 
-PARA RESPONDER COM UM CABEÇALHO:
+	PARA RESPONDER COM UM CABEÇALHO:
 
-ex.: res.setHeader('Content-type', 'text/html; charset= utf-8');
-     res.end('<h1>Hello world!</h1>');
+	ex.: res.setHeader('Content-type', 'text/html; 
+	     charset= utf-8');
+     	     res.end('<h1>Hello world!</h1>');
 	
-	.setHeader(): Para responder com um cabeçalho.
-	E os paremetros:
-		- 1: Tipo do conteúdo.
-		- 2: Formato do conteúdo.
-	Neste caso o tipo de conteúdo foi 'texto/HTML' e 'charset'
-	para ler caracteres com acentos.
+		.setHeader(): Para responder com um cabeçalho.
+		E os paremetros:
+			- 1: Tipo do conteúdo.
+			- 2: Formato do conteúdo.
+		Neste caso o tipo de conteúdo foi 'texto/HTML' e 
+		'charset' para ler caracteres com acentos.
 
-	* .end(): É um método que finaliza uma requisição HTTP.
-	Neste caso retornou um <H1>.
+		* .end(): É um método que finaliza uma requisição
+			  HTTP. Neste caso retornou um <H1>.
 
 
-PARA DAR RESPOSTAS DIFERENTES EM URL'S DIFERENTES:
+	PARA DAR RESPOSTAS DIFERENTES EM URL'S DIFERENTES:
 
-ex.: let url = req.url;
+	ex.: let url = req.url;
 
-     if(url === '/'){
-     	res.statusCode = 200;
-        res.setHeader('Content-type', 'text/html');
-        res.end('<h1>Hello world!</h1>');
-     }
-     if (url ==='/sobre'){
-         res.statusCode = 200;
-         res.setHeader('Content-type', 'text/html');
-         res.end('<h1>Página SOBRE!</h1>');
-     }
+     	if(url === '/'){
+     		res.statusCode = 200;
+        	res.setHeader('Content-type', 'text/html');
+        	res.end('<h1>Hello world!</h1>');
+     	}
+     	if (url ==='/sobre'){
+         	res.statusCode = 200;
+         	res.setHeader('Content-type', 'text/html');
+         	res.end('<h1>Página SOBRE!</h1>');
+     	}
+
 
 	* let url = req.url : Para dar o valor da URL a variavel.
 
@@ -259,4 +261,147 @@ ex.: let url = req.url;
 	  vai dar a resposta.
 
 
+PARA NÃO SER NECESSÁRIO FICAR REINICIANDO O SERVIDOR TODA VEZ QUE
+FIZER UMA ALTERAÇÃO:
 
+- nodemon nomeDoArquivo(NO TERMINAL) : Assim vai ser o servidor 
+				       ser atualizado 
+				       automaticamente.
+
+
+MANIPULAÇÃO DE PASTAS
+
+fs: Modulo FILE SYSTEM. Para manipulação de pastas e arquivos.
+
+	ex.: const fs = require('fs');
+	
+	Para fazer o requerimento do módulo FileSystem.
+
+
+	* fs.existsSync() : Para VERIFICAR se uma pasta EXISTE.
+
+	* fs.mkdirSync() : Para CRIAR uma pasta.
+
+	* fs.renameSync() : Para RENOMEAR uma pasta.
+
+	* fs.rm() : Para DELETAR uma pasta.
+	
+	* fs.rmdir(): Para DELETAR uma pasta VAZIA.
+
+
+	EXEMPLO de CRIAR pasta:
+	 
+		- if(!fs.existsSync('./public')) {
+    			fs.mkdirSync('./public', (err) =>{
+        			if(err) {
+            				throw err;
+        			}
+        			console.log('Pasta criada com 
+				sucesso!');
+    			})
+		  }
+
+		1 - if(!fs.existsSync('./public')):
+		SE NÃO(!) EXISTIR A PASTA ./public...
+
+		2 - fs.mkdirSync('./public', (err) =>{} :
+		CRIA A PASTA ./public, e a função para determinar
+		o que vai acontecer quando criar a pasta. 
+
+		  * 'err': Como parametro, REFERE-SE ao ERRO.
+
+		3- if(err){} :
+		SE EXISTIR ERRO(err)...
+
+		4- throw err; :
+		Vai MOSTAR o erro no terminal.
+		  * throw: Interrupção de Fluxo.(Como o 'return')
+
+		5- console.log('Pasta criada com sucesso!'); :
+		SE NÃO TIVER ERRO, vai mostar a mensagem.
+		
+		
+	EXEMPLO de RENOMEAR pasta:
+
+		- if(fs.existsSync('./public')) {
+    			fs.renameSync('./public', './bernardo', 
+			(err) =>{
+        			if(err) {
+            				throw err;
+        			}
+        			console.log('Pasta RENOMEADA com 
+				sucesso!');
+
+    			})
+		  }
+
+		1- if(fs.existsSync('./public')) {} :
+		SE EXISTIR A PASTA ./public...
+
+		2- fs.renameSync('./public', './bernardo', 
+		   (err) =>{} :
+		RENOMEIA A PASTA ./public, PARA ./bernardo, e a
+		função que determina oque vai acontecer quando 
+		renomear a pasta.
+		  * 'err': Como parametro, REFERE-SE ao ERRO.
+
+		3- if(err) {} :
+		SE TIVER ERRO...
+
+		4- throw err; :
+		Vai MOSTAR o erro no terminal.
+		  * throw: Interrupção de Fluxo.(Como o 'return')
+
+		5- console.log('Pasta RENOMEADA com sucesso!'); :
+		SE NÃO TIVER ERRO, vai mostrar a mensagem.
+
+	
+	EXEMPLO de DELETAR pasta COM ARQUIVOS:
+
+		- if(fs.existsSync('./bernardo')) {
+    			fs.rm('./bernardo', {recursive: true},
+			(err) =>{
+        			if(err) {
+            				throw err;
+        			}
+        			console.log('Pasta DELETADA com 
+				sucesso!');
+
+    			})
+		}
+
+		
+		1- if(fs.existsSync('./bernardo')) {} :
+		SE EXISTIR A PASTA ./bernardo...
+
+		2- fs.rm('./bernardo', {recursive: true}, 
+		   (err) =>{} :
+		- DELETA A PASTA ./bernardo, 
+		- TAMBÉM OS ARQUIVOS RECURSIVOS,
+		- E a função que determina oque vai acontecer 
+		  quando renomear a pasta.
+
+		  * 'err': Como parametro, REFERE-SE ao ERRO.
+		  * Se você não especificar a opção 
+		    recursive: true, fs.rm() apenas removerá 
+		    arquivos e diretórios vazios.
+
+		3- if(err) {} :
+		SE TIVER ERRO...
+
+		4- throw err; :
+		Vai MOSTAR o erro no terminal.
+		  * throw: Interrupção de Fluxo.(Como o 'return')
+
+		5- console.log('Pasta DELETADA com sucesso!'); :
+		SE NÃO TIVER ERRO, vai mostrar a mensagem.
+
+
+	EXEMPLO DELETAR uma pasta VAZIA:
+
+		- fs.rmdir('./bernardo', (err) =>{} :
+
+		Assim vai apagar a pasta se ela estiver VAZIA.
+
+
+MANIPULAÇÃO DE ARQUIVOS
