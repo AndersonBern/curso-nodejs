@@ -6,11 +6,22 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(
     function(req, res){
-        console.log(req);
-        res.statusCode = 200;
+        let url = req.url;
+
+        if(url === '/'){
+            res.statusCode = 200;
+            res.setHeader('Content-type', 'text/html');
+            res.end('<h1>Hello world!</h1>');
+        }
+        if (url ==='/sobre'){
+            res.statusCode = 200;
+            res.setHeader('Content-type', 'text/html; charset= utf-8');
+            res.end('<h1>Página SOBRE!</h1>');
+        }
+        
     }
 );
 
 server.listen(PORT, hostname, function(){
     console.log(`O servidor está rodando em: http://${hostname}:${PORT}`);
-})
+});
