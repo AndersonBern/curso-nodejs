@@ -28,7 +28,7 @@ else {
 }*/
 
 //Metodo DELETAR
-if(fs.existsSync('./bernardo')) {
+/*if(fs.existsSync('./bernardo')) {
     fs.rm('./bernardo', {recursive: true}, (err) =>{
         if(err) {
             throw err;
@@ -39,6 +39,48 @@ if(fs.existsSync('./bernardo')) {
 }
 else {
     console.log('Impossivel DELETAR, pois a pasta *bernardo* não existe!')
-}
+}*/
 
+//VERIFICA SE NÃO EXISTE O ARQUIVO
+/*if(!fs.existsSync('teste.txt')){
 
+//CRIA ARQUIVO
+    fs.writeFile('teste.txt', 'teste de conteúdo!', (err)=>{
+        if(err){
+            throw err;
+        }
+        console.log('Arquivo criado com sucesso!')
+    })
+}*/
+
+//ADICIONAR CONTEÚDO AO ARQUIVO(OU CRIA) SEM SOBRESCREVER
+/*fs.appendFile('teste.txt', '\nConteúdo ADICIONADO!', (err)=>{
+    if(err){
+        throw err;
+    }
+    console.log('Arquivo ATUALIZADO!');
+})*/
+
+//CRIA ARQUIVO VAZIO
+/*fs.open('arquivo.txt', 'w', (err, file)=>{
+    if(err) {
+        throw err;
+    }
+    console.log('Salvo!')
+})*/
+
+//RENOMEAR ARQUIVOS
+/*fs.rename('arquivo.txt', 'bernardo.txt', (err)=>{
+    if(err) {
+        throw err;
+    }
+    console.log('Arquivo RENOMEADO!');
+})*/
+
+//DELETAR ARQUIVOS
+/*fs.unlink('bernardo.txt', (err)=>{
+    if(err) {
+        throw err;
+    }
+    console.log('Arquivo DELETADO!');
+});*/

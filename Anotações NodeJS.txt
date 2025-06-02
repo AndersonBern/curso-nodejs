@@ -405,3 +405,217 @@ fs: Modulo FILE SYSTEM. Para manipulação de pastas e arquivos.
 
 
 MANIPULAÇÃO DE ARQUIVOS
+
+    CRIAR/ATUALIZAR:
+
+	* fs.writeFile() : Substitui o ARQUIVO E O CONTEÚDO caso 
+			   ele já exista, e se não existir, cria 
+			   um novo arquivo com o conteúdo que vc
+			   passar.
+
+		ex.: 
+
+		fs.writeFile('teste.txt', 'teste de conteúdo!', 
+		(err)=>{
+    			if(err){
+        			throw err;
+   			 }
+   		 	console.log('Arquivo criado com sucesso!');
+		})
+
+
+	     EXPLICAÇÃO POR LINHA:
+
+		1- fs.writeFile('teste.txt', 'teste', (err)=>{}) :
+		Cria o arquivo, com 3 parametros:
+			- 'teste.txt': NOME DO ARQUIVO;
+			- 'teste': CONTEÚDO;
+			- (err)=>{}: FUNÇÃO PARA DETERMINAR O QUE
+				     ACONTECE QUANDO CRIA ARQUIVO.
+		
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4- console.log('Arquivo criado com sucesso!');
+		SE NÃO TIVER ERRO, mostra a mensagem.
+
+	OBS.: CUIDADO ao usar este método, pois ele pode 
+	      SOBRESCREVER o arquivo caso ele já exista. SEMPRE
+	      faça uma verificação antes:
+		
+			ex.: if(!fs.existsSync('teste.txt')){...}
+			SE NÃO EXISTIR O ARQUIVO 'teste.txt'...
+
+
+
+     * fs.appendFile() : Adiciona conteúdo ao arquivo, se o
+			    arquivo não existir ele cria.
+
+		ex.: 
+		fs.appendFile('teste.txt', 'Conteúdo ADICIONADO',
+		(err)=>{
+    			if(err){
+        			throw err;
+    			}
+    			console.log('Arquivo ATUALIZADO!');
+		})
+
+	     EXPLICAÇÃO POR LINHA:
+
+		1- fs.appendFile('teste.txt', 'teste', (err)=>{}) :
+		ADICIONA CONTEÚDO ao arquivo(OU CRIA) SEM 
+		SOBRESCREVER. Com 3 parametros:
+			- 'teste.txt': NOME DO ARQUIVO;
+			- 'teste': CONTEÚDO;
+			- (err)=>{}: FUNÇÃO PARA DETERMINAR O QUE
+				     ACONTECE QUANDO CRIA ARQUIVO.
+		
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4- console.log('Arquivo ATUALIZADO!');
+		SE NÃO TIVER ERRO, mostra a mensagem.
+		
+	OBS.: MÉTODO MAIS RECOMENDADO, pois não há risco de perca
+	      de arquivos, já que este método não SOBRESCREVE nada.
+
+
+
+     * fs.open() : Abre um arquivo para leitura, se o arquivo 
+		      não existir ele cria um VAZIO. Para criar um 
+		      arquivo usar a flag 'w'(writing) para 
+		      escrita. 
+
+		ex.: 
+		fs.open('arquivo.txt', 'w', (err, file)=>{
+    			if(err) {
+        			throw err;
+    			}
+    			console.log('Salvo!')
+		})
+
+	     EXPLICAÇÃO POR LINHA:
+
+		1- fs.open('arquivo.txt', 'w', (err, file)=>{} :
+		CRIA ARQUIVO VAZIO. Com 3 parametros:
+			- 'arquivo.txt': NOME DO ARQUIVO;
+			- 'w': FLAG para WRITING(escrever);
+			- (err, file)=>{}: FUNÇÃO PARA DETERMINAR
+					   O QUE ACONTECE QUANDO 
+					   CRIA ARQUIVO.
+		
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4- console.log('Salvo!')
+		SE NÃO TIVER ERRO, mostra a mensagem.
+
+	OBS.: MÉTODO NÃO RECOMENDADO, pois este método é melhor
+	      para ABRIR arquivos, e não para CRIAR arquivos.
+
+
+    RENOMEAR/DELETAR:
+
+     * fs.rename(): Renomear arquivos.
+
+		ex.: 
+		fs.rename('arquivo.txt', 'bernardo.txt', (err)=>{
+    			if(err) {
+        			throw err;
+    			}
+    			console.log('Arquivo RENOMEADO!');
+		});
+
+	    EXPLICAÇÃO POR LINHA:
+
+		1- fs.rename('arquivo.txt', 'bernardo.txt', 
+		   (err)=>{} :
+		RENOMEIA o ARQUIVO, com 3 parametros:
+			- 'arquivo.txt': NOME DO ARQUIVO;
+			- 'bernardo.txt': NOVO nome do arquivo;
+			- (err)=>{}: FUNÇÃO CALLBACK.
+
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4- console.log('Arquivo RENOMEADO!');
+		SE NÃO TIVER ERRO, mostra a mensagem.
+
+	OBS.: É INTERESSSANTE verificar se o arquivo que você 
+	      deseja renomear EXISTE:
+
+		ex.: if(fs.existsSync('arquivo.txt')){...} :
+		SE O ARQUIVO 'arquivo.txt' EXISTE...
+
+	
+     * fs.unlink() : EXCLUIR ARQUIVO.
+
+		ex.: 
+		fs.unlink('bernardo.txt', (err)=>{
+    			if(err) {
+       				throw err;
+    			}
+    			console.log('Arquivo DELETADO!');
+		});
+
+	     EXPLICAÇÃO POR LINHA:
+
+		1- fs.unlink('bernardo.txt', (err)=>{} :
+		DELETA o ARQUIVO, com 2 parametros:
+			- 'bernardo.txt': NOME DO ARQUIVO;
+			- (err)=>{}: FUNÇÃO CALLBACK.
+
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4- console.log('Arquivo DELETADO!');
+		SE NÃO TIVER ERRO, mostra a mensagem.
+
+	OBS.: É INTERESSSANTE verificar se o arquivo que você 
+	      deseja renomear EXISTE.
+
+
+    LER ARQUIVOS:
+
+       * fs.readFile() : Ler arquivo.
+
+		ex.: 
+		fs.readFile('projeto-node/public/index.html', 
+		(err, content)=> {
+                	if(err) {
+                    		throw err;
+               		}
+                	res.setHeader('Content-type', 'text/html');
+                	res.end(content);
+           	});
+
+	     EXPLICAÇÃO POR LINHA:
+		
+		1- fs.readFile('projeto-node/public/index.html', 
+		   (err, content)=> {} :
+		LER ARQUIVO, com 2 parametros:
+			- LOCAL DO ARQUIVO;
+			- FUNÇÃO CALLBACK com 2 parametros:
+				- err: ERRO;
+				- content: CONTEÚDO.
+			
+		2- if(err){} : SE TIVER ERRO...
+
+		3- throw err; : MOSTRA O ERRO.
+
+		4-  res.setHeader('Content-type', 'text/html'); :
+		ADICIONA um cabeçalho ao SERVIDOR, com 2 param.:
+			- TIPO DO CONTEÚDO;
+			- FORMATO DO CONTEÚDO;
+		
+		5- res.end(content); :
+		FINALIZA A REQUISIÇÃO e mostra o CONTEÚDO do 
+		arquivo LIDO (index.html).
+		
+
+ 

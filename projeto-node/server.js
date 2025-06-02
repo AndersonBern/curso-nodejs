@@ -1,5 +1,7 @@
 const http = require('http');
 
+const fs = require('fs');
+
 const hostname = '127.0.0.1'; //localhost
 
 const PORT = process.env.PORT || 3000;
@@ -9,9 +11,16 @@ const server = http.createServer(
         let url = req.url;
 
         if(url === '/'){
-            res.statusCode = 200;
-            res.setHeader('Content-type', 'text/html');
-            res.end('<h1>Hello world!</h1>');
+            //LER ARQUIVO
+            fs.readFile('projeto-node/public/index.html', (err, content)=> {
+                if(err) {
+                    throw err;
+                }
+                res.statusCode = 200;
+                res.setHeader('Content-type', 'text/html');
+                res.end(content);
+            })
+            
         }
         if (url ==='/teste'){
             res.statusCode = 200;
