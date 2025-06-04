@@ -618,4 +618,168 @@ MANIPULAÇÃO DE ARQUIVOS
 		arquivo LIDO (index.html).
 		
 
+
+
+
+EXPRESS
+
+Express é um Framework para nodeJS minimalista que diminui linhas
+de código por já ter vários modulos dentro dele.
+
+EXEMPLO DE CRIAÇÃO DE SERVIDOR:
+
+	- const express = require('express');
+
+	  const app = express();
+
+	  const PORT = process.env.PORT || 3000;
+
+	  app.get('/', (req, res) => {
+    		res.send('<h1>Hello World!</h1>');
+	  });
+
+	  app.listen(PORT, ()=> {
+    		console.log(`Servidor rodando em http://localhost:
+		${PORT}`);
+	  });
+
+
+* const express = require('express'); : Para fazer a REQUISIÇÃO
+					do EXPRESS.
+
+
+* const app = express(); : Constante PADRÃO para pegar todos o
+			   conteúdo de dentro do Express. Esta
+			   constante é por onde faremos o uso de
+			   todas as funções do Express.
+
+
+* const PORT = process.env.PORT || 3000; : Da mesma forma que o 
+					   método 'http', é 
+				  	   necessário criar uma
+					   PORTA para o servidor.
+
+
+* app.get('/', (req, res) => {} : Para definir ROTAS. Neste caso
+				  PEGAR(get), a pagina 
+				  principal('/') e mostrar algo.
+				  Por padrão a função de tem 2 
+				  parametros 'req' e 'res' onde 
+				  a RESposta será mostrada pelo
+				  parametro 'res'.
+
+			Parametros:
+				1- Pagina;
+				2- Função;
+
+
+*  res.send('<h1> ... </h1>'); : O metodo .send serve para ENVIAR
+				  algo como resposta('res'), neste
+				  caso, para a página PRINCIPAL. 
+				  Que no caso foi um <h1>.
+
+
+* app.listen(PORT, ()=> {} : Para dar START ao servidor. Basta 
+			     apenas indicar a PORTA nos parametros
+			     mas se for necessário podemos 
+			     utilizar uma função de CALLBACK.
+
+
+
+PARA ENVIAR UM ARQUIVO COMO RESPOSTA:
+
+
+* res.sendFile(__dirname + '/public/index.html'); :
+
+
+	- .sendFile() : Para ENVIAR um ARQUIVO.
+
+	- __dirname : Para dar o local ABSOLUTO do ARQUIVO.
+		      É necessário SEMPRE dar o local absoluto.
+
+	- + '/LocalDoArquivo.html' : É necessário CONCATENAR(+),
+	  			     pois antes veio o modulo 
+				     '__dirname' e dar o local do
+	  			     arquivo.
+
+
+PARA CRIAR ROTAS COM PAGINAS DIFERENTES NO SERVIDOR:
+
+- A ROTA de exemplo: carros/fiat/uno
+
+	1- Crie um novo arquivo .js(javascript) para criar as 
+	   rotas.
+
+	2- Faça a requisição do EXPRESS:
+		
+		- const express = require('express');
+
+	3- Crie uma constante/variavel para pegar o MÉTODO 
+	   expecifico para ROTAS.
+
+		- const router = express.Router();
+		
+		.Router : É o MÉTODO do express próprio para rotas.
+
+	4- Crie as rotas:
+	
+		- router.get('/', (req, res)=> {...}
+
+		ROTA PARA '/'(PAGINA PRINCIPAL)...
+
+		- router.get('/fiat', (req, res)=> {...}
+
+		ROTA PARA '/fiat'...
+
+		- router.get('/fiat/uno', (req, res)=> {...} 
+		
+		ROTA PARA '/fiat/uno'
+
+	5- EXPORTE AS ROTAS COMO MODULO PARA O SEU SERVIDOR:
+
+		- module.exports = router;
+
+		LEMBRANDO 'router' é a constante das rotas...
+
+
+    NO SCRIPT DO SERVIDOR...
+
+	6- FAÇA A REQUISIÇÃO DO MODULO DAS ROTAS CRIADAS.
+
+		- const rotas = require('./routes/carros.js');
+		
+		obs.: SEMPRE dê o local do arquivo onde se 
+		      encontra o SEU modulo de rotas.
+
+	7- CHAME AS ROTAS DO SEU MODULO:
+
+		- app.use('/carros', rotas);
+
+		   * .use : serve para usar uma rota de um módulo 
+			 externo.
+
+		   * '/carros' : É a rota onde você quer que a 
+				 pagina principal('/') do seu 
+				 módulo comece.
+
+		   * rotas : é a constante onde foi feita a 
+		 	     requisição do módulo das rotas.
+
+	8- Agora a página principal das suas rotas é '/carros'.
+	   Para acessar as outras páginas basta digitar na barra:
+
+		- carros/fiat : Para a página fiat.
+
+		- carros/fiat/uno : Para a página Uno.
+
+	SCRIPT DO EXEMPLO:
+	
+		- curso-nodejs/projeto-node/routes/carros.js
+
+	SCRIPT DO SERVIDOR EXPRESS: 
+	
+		- curso-nodejs/projeto-node/express.js
+		
+    
+   
  
