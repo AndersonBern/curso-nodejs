@@ -785,7 +785,47 @@ PARA CRIAR ROTAS COM PAGINAS DIFERENTES NO SERVIDOR:
 MIDDLEWERES
 		
 Middlewares = INTERMEDIÁRIO = INTERCEPTADOR = MEIO.
-Conjunto de coisas que fica no meio.
+
+É a ação que acontece entre o INICIO de uma requisição e o FIM de
+uma requisição.
+TODA VEZ em que aplicamos o método LISTEN(app.listen), estamos 
+INICIANDO a nossa requisição, e TODA VEZ que exibimos algo para o
+usuário (res.send), estamos FINALIZANDO uma requisição.
+
+Um MIDDLEWARE tem um diferencial, que é um parametro a mais na 
+função de callback: o NEXT.
+
+	ex.: 
+
+	app.get('/', (req, res, next)=> {
+    	    	console.log('Eu sou um MIDDLEWARE!')
+    		next();
+	});
+
+	EXPLICAÇÃO POR LINHA:
+	
+		1- app.get('/', (req, res, next)=> {}
+		UM MIDDLEWARES é inicializado como qualquer outra
+		definição de rota, porem na função callback tem
+		outro parametro:
+			* req : requisição;
+			* res: resposta;
+			* next: OQUE TORNA UM MIDDLEWARE.
+
+		2- console.log('Eu sou um MIDDLEWARE!') :
+		O que vai acontecer antes da resposta da 
+		requisição.
+
+		3- next() :
+		Chama a próxima função de middleware na sequência.
+	
+	
+MIDDLEWARES são utilizados para executar uma ação, seja uma 
+Autenticação, Validação de Dados, Logging. ANTES que a resposta
+seja mostrada ao usuário.
+	
+
+
 
 
    
