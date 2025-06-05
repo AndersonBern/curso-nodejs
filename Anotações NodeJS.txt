@@ -788,14 +788,14 @@ MIDDLEWERES
 		
 Middlewares = INTERMEDIÁRIO = INTERCEPTADOR = MEIO.
 
-É a ação que acontece entre o INICIO de uma requisição e o FIM de
-uma requisição.
+É a FUNÇÃO que executa uma ação entre o INICIO de uma requisição e
+o FIM de uma requisição.
 TODA VEZ em que aplicamos o método LISTEN(app.listen), estamos 
-INICIANDO a nossa requisição, e TODA VEZ que exibimos algo para o
-usuário (res.send), estamos FINALIZANDO uma requisição.
+INICIANDO uma requisição, e TODA VEZ que exibimos algo para o
+usuário(res.send), estamos FINALIZANDO uma requisição.
 
 Um MIDDLEWARE tem um diferencial, que é um parametro a mais na 
-função de callback: o NEXT.
+função: o NEXT.
 
 	ex.: 
 
