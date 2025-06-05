@@ -19,18 +19,30 @@ app.use('/carros', carros);*/
 
 
 //MIDDLEWARES
-app.get('/', (req, res, next)=> {
+/*app.get('/', (req, res, next)=> {
     console.log('Eu sou um MIDDLEWARE!')
     next();
-})
+})*/
 
-app.get('/', (req, res, next)=> {
-    console.log('Eu sou o segundo MIDDLEWARE!')
+//MIDDLEWARE de altenticação
+const usuarioLogado = false;
+
+app.use('/restrita', (req, res, next)=> {
+    if(!usuarioLogado){
+        res.redirect('/');
+    }
     next();
 })
-
+//Rota inicial
 app.get('/', (req, res)=> {
     res.send('<h1>PÁGINA INCIAL</h1>')
+})
+//Rotas restritas
+app.get('/restrita', (req, res)=> {
+    res.send('<h1>PÁGINA RESTRITA</h1>')
+});
+app.get('/restrita/usuario', (req, res)=> {
+    res.send('<h1>PÁGINA RESTRITA USUARIO</h1>')
 })
 
 //START SERVER

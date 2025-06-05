@@ -823,6 +823,35 @@ função de callback: o NEXT.
 MIDDLEWARES são utilizados para executar uma ação, seja uma 
 Autenticação, Validação de Dados, Logging. ANTES que a resposta
 seja mostrada ao usuário.
+
+	EXEMPLO DE MIDDLEWARES DE AUTENTICAÇÃO:
+
+	const usuarioLogado = false;
+
+	app.use('/restrita', (req, res, next)=> {
+    		if(!usuarioLogado){
+        		res.redirect('/');
+    		}
+    		next();
+	})
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- const usuarioLogado = false;
+		Constante que indica que o usuario não esta logado.
+
+		2- app.use('/restrita', (req, res, next)=> {};
+		Criação da middleware, para a pagina '/restrita'.
+
+		3- if(!usuarioLogado){} :
+		SE o usuario NÃO(!) estiver logado...
+
+		4- res.redirect('/'); :
+		REDIRECIONA a pagina inicial.
+
+		5- next() :
+		SE o usuário estiver logado, vai liberar o acesso.
+		as PROXIMAS(next) páginas.
 	
 
 
