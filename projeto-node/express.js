@@ -3,6 +3,12 @@ const express = require('express');
 //Requisição do modulo de rotas CARROS.
 const carros = require('./routes/carros.js');
 
+//Requisição do modulo de rotas restritas
+const rotas = require('./ex001/rotas.js');
+
+//Requisição do modulo Middleware
+const mw = require('./ex001/middleware.js');
+
 //Recebe TUDO que tem express
 const app = express();
 
@@ -25,25 +31,9 @@ app.use('/carros', carros);*/
 })*/
 
 //MIDDLEWARE de altenticação
-const usuarioLogado = false;
+app.use('/restrita', mw);
 
-app.use('/restrita', (req, res, next)=> {
-    if(!usuarioLogado){
-        res.redirect('/');
-    }
-    next();
-})
-//Rota inicial
-app.get('/', (req, res)=> {
-    res.send('<h1>PÁGINA INCIAL</h1>')
-})
-//Rotas restritas
-app.get('/restrita', (req, res)=> {
-    res.send('<h1>PÁGINA RESTRITA</h1>')
-});
-app.get('/restrita/usuario', (req, res)=> {
-    res.send('<h1>PÁGINA RESTRITA USUARIO</h1>')
-})
+app.use('/', rotas);
 
 //START SERVER
 app.listen(PORT, ()=> {

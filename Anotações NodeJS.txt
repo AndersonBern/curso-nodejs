@@ -623,6 +623,8 @@ MANIPULAÇÃO DE ARQUIVOS
 
 EXPRESS
 
+SCRIPT DOS EXEMPLOS: /projeto-node/express.js
+
 Express é um Framework para nodeJS minimalista que diminui linhas
 de código por já ter vários modulos dentro dele.
 
@@ -805,8 +807,8 @@ função de callback: o NEXT.
 	EXPLICAÇÃO POR LINHA:
 	
 		1- app.get('/', (req, res, next)=> {}
-		UM MIDDLEWARES é inicializado como qualquer outra
-		definição de rota, porem na função callback tem
+		Uma requisição é inicializada como qualquer outra
+		definição de rota, porem na função MIDDLEWARE tem
 		outro parametro:
 			* req : requisição;
 			* res: resposta;
