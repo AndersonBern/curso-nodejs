@@ -8,14 +8,30 @@ const app = express();
 
 //Config
 const PORT = process.env.PORT || 3000;
-
+/*
 //GET, POST, PUT, DELETE
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
 //Rotas
-app.use('/carros', carros);
+app.use('/carros', carros);*/
+
+
+//MIDDLEWARES
+app.get('/', (req, res, next)=> {
+    console.log('Eu sou um MIDDLEWARE!')
+    next();
+})
+
+app.get('/', (req, res, next)=> {
+    console.log('Eu sou o segundo MIDDLEWARE!')
+    next();
+})
+
+app.get('/', (req, res)=> {
+    res.send('<h1>PÁGINA INCIAL</h1>')
+})
 
 //START SERVER
 app.listen(PORT, ()=> {
