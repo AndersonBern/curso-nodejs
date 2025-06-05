@@ -779,7 +779,14 @@ PARA CRIAR ROTAS COM PAGINAS DIFERENTES NO SERVIDOR:
 	SCRIPT DO SERVIDOR EXPRESS: 
 	
 		- curso-nodejs/projeto-node/express.js
+
+
+
+MIDDLEWERES
 		
-    
+Middlewares = INTERMEDIÁRIO = INTERCEPTADOR = MEIO.
+Conjunto de coisas que fica no meio.
+
+
    
  
