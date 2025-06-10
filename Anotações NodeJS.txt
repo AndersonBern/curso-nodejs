@@ -1758,6 +1758,15 @@ Update, Delete) de forma mais organizada e segura.
 6- EXPORTE o MODELO da tabela: 
 
 	- module.exports = Usuario;
+
+
+
+
+INTEGRAR O MODELO DA TABELA AO CÓDIGO PRINCIPAL DO PROJETO
+
+1- Faça a REQUISIÇÃO do MODELO da tabela no seu 'index.js':
+
+	- const Usuario = require('./models/Usuario');
 				       
 
 
