@@ -1642,11 +1642,123 @@ CRIANDO O BANCO DE DADOS NO XAMPP
 
 CRIANDO OS MODELOS PARA A CRIAÇÃO DA TABELA NO BANCO DE DADOS
 
+	ARQUIVO PARA OS EXEMPLOS: crud-node/models/Usuario.js
+
 Os MODELS(modelos) representam as tabelas do banco de dados e 
 fornecem métodos para realizar operações CRUD (Create, Read, 
 Update, Delete) de forma mais organizada e segura.
 
- 
+
+1- Crie um arquivo(.js) na pasta MODELS para ser o modelo da sua
+   tabela. No caso: Usuario.js.
+
+2- No arquivo 'Usuario.js' faça a REQUISIÇÃO do MODULO e da 
+   INSTANCIA do Sequelize:
+
+	- const dataBase = require('./db');
+
+
+3- Crie a constante que vai DEFINIR a tabela:
+
+	- const Usuario = dataBase.sequelize.define('usuario', 
+	  {...});
+
+		* dataBase.sequelize: É a constante da requisição
+				      chamando a INSTANCIA do 
+				      Sequelize.
+
+		* .define(): É o método que vai DEFINIR a tabela.
+			     Que recebe 2 parametros:
+
+				- 'usuario': É o NOME da tabela
+					     que será criada.
+
+				- {...}: É o objeto que contém os
+					 parametros que vão 
+					 DEFINIR as colunas da
+					 tabela.
+
+
+4- Determine os PARAMETROS que irão DEFINIR as COLUNAS da tabela:
+
+	- const Usuario = dataBase.sequelize.define('usuario', {
+    		id: {
+        		type: dataBase.Sequelize.INTEGER,
+        		autoIncrement: true,
+        		allowNull: false,
+        		primaryKey: true
+    		},
+    		nome: {
+        		type: dataBase.Sequelize.STRING,
+        		allowNull: false
+    		}
+	   });
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- id: {} : A COLUNA 'id', que POR PADRÃO sempre
+			    será a primeira coluna. E dentro do 
+			    objeto{} estão as propriedades da
+			    coluna.
+
+		2- type: dataBase.Sequelize.INTEGER:
+			É a propriedade que vai definir o TIPO que
+			a coluna vai ser.
+
+			- database.Sequelize: É a constante da 
+					      requisição chamando
+					      o MODULO Sequelize.
+
+			- .INTEGER: É um método do MODULO 
+				    Sequelize que define que o
+				    valor da coluna será de 
+				    NUMEROS INTEIROS(INTEGER).
+
+		3- autoIncrement: true: É a propriedade que 
+				  	determina que o valor
+					da coluna vai 
+					incrementar +1, toda vez
+					que um novo 'usuario' for
+					adicionado a tabela.
+
+		4- allowNull: false: Não aceita valores NULOS.
+
+		5- primaryKey: true: Será a COLUNA PRIMARIA da 
+				     tabela.
+
+		6- nome: {} : A COLUNA 'nome', E dentro do 
+			      objeto{} estão as propriedades da
+			      coluna.
+
+		7- type: dataBase.Sequelize.STRING:
+			É a propriedade que vai definir o TIPO que
+			a coluna vai ser.
+
+			- database.Sequelize: É a constante da 
+					      requisição chamando
+					      o MODULO Sequelize.
+
+			- .STRING: É um método do MODULO 
+				   Sequelize que define que o
+				   valor da coluna será de 
+				   LETRAS(STRING).
+
+		8-  allowNull: false: Não aceita valores NULOS.
+
+
+5- SINCRONIZE o MODELO da tabela:
+
+	- Usuario.sync();
+
+		* .sync(): Método do Sequelize para sincronizar o
+			   modelo da tabela, e caso a tabela não 
+			   exista irá criar uma nova tabela.
+
+
+6- EXPORTE o MODELO da tabela: 
+
+	- module.exports = Usuario;
+				       
 
 
 
