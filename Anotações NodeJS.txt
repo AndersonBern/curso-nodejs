@@ -858,6 +858,802 @@ seja mostrada ao usuário.
 
 
 
+HANDLEBARS
 
+é uma ferramenta que facilita a criação de HTML dinâmico em 
+aplicações Node.js. Ele é um motor de templates que permite 
+separar a lógica de apresentação do código, tornando a construção
+de interfaces de usuário mais simples e eficiente.
+
+PARA INSTALAR HANDLEBARS NO SEU PROJETO:
+
+- npm install express-handlebars --save
+
+
+CONFIGURAÇÃO PADRÃO PARA HANDLEBARS
    
+	* app.engine('hbs', hbs.engine({
+    	  	extname: 'hbs',
+    	  	defaltLayout: 'main',
+
+	  }));
+	  app.set('view engine', 'hbs');
+
+	EXPLICAÇÃO POR LINHA:
+
+	1- app.engine('hbs', hbs.engine({}) :
+		- app.engine: Para definir o MOTOR de renderização 
+			    para o FRONTEND do nosso projeto;
+
+		- 'hbs' : Sigla para HANDLEBARS;
+
+		- hbs.engine : Para configurar o HANDLEBARS. Onde
+			       o 'hbs' é a constante que contem o
+			       handlebars e '.engine' para 
+			       configurar o motor.
+
+	2- extname: 'hbs', : Para definir que os arquivos 
+	   		     '.handlebars' possam ser nomeados 
+			     usando apenas a sigla '.hbs'. 
+
+	3- defaltLayout: 'main', : Para definir que a pagina 
+				   'main' será o layout padrão.
+
+	4- app.set('view engine', 'hbs') : Para indicar ao express
+					   que queremos usar a 
+					   engine handlebars.
+
+PASSOS IMPORTANTES:
+
+	* É OBRIGATÓRIO que criemos uma pasta chamada 'views' na
+	  pasta raiz do projeto.
+	
+	* É OBRIGATÓRIO que criemos dentro da pasta 'views' outra
+	  pasta chamada 'layouts'.
+
+	* É OBRIGATÓRIO que criemos dentro da pasta 'layouts' um
+	  arquivo chamado 'main.hbs'.(Que é o arquivo ao que se 
+	  refere a configuração 'defaltLayout: 'main'').
+
+	* Dentro do arquivo 'main.hbs' iremos criar uma variavel
+	  dentro da tag <body> assim: {{{body}}}. Esta váriavel
+	  '{{{body}}}' é onde todas as páginas que criaremos vão
+	  aparecer.
+
+	* Dentro da pasta 'views'(e fora da pasta 'layouts') é
+	  onde criaremos todas as nossas páginas.
+
+
+PARA MOSTRAR COMO RESPOSTA(res) AS PÁGINAS CRIADAS .hbs
+
+	* app.get('/', (req, res)=> {
+    	  	res.render('index');
+	  });
+
+	EXPLICAÇÃO:
+
+	- res.render('nomeDaPagina') :
+
+	O método '.render()' é para RENDERIZAR(com o motor hbs) a
+	página que criamos dentro da pasta 'views'.
+	OBS.: Não precisa colocar o .hbs . E a pasta NÃO pode 
+	estar dentro de outras pastas, TEM QUE ESTAR dentro da
+	pasta RAIZ.
+
+
+PARA MOSTRAR INFORMAÇÕES DO BACKEND NO FRONTEND
+
+   Dentro da nossa difinição de ROTA(.get) na RESPOSTA(res) 
+   podemos criar OBJETOS{} para capturar informações e mostrar no 
+   FRONTEND.
+
+	ex.: app.get('/', (req, res)=> {
+    		res.render('index', {nome: 'Bernardo'});
+	     });
+
+	Dentro da RESPOSTA(res.render) criamos o OBJETO 'nome'.
+
+   Para mostrar este objeto no FRONTEND basta utilizar 
+   chaves duplas = {{objeto}} dentro de uma tag.
+
+	ex.: <h1>{{nome}}</h1>
+
+	Com a utilização das chaves duplas e o nome do objeto 
+	dentro podemos mostrar a informação contida dentro do
+	objeto no frontend.
+
+
+PARA UTILIZAR ARQUIVOS ESTATICOS (.js / .css)
+
+   Para utilizar arquivos estaticos como o nosso proprio SCRIPT e
+   o CSS, temos que criar uma MIDDLEWARE que indique que queremos
+   utilizar arquivos estaticos.
+
+	ex.: app.use(express.static('public'));
+
+	O método 'express.static' indica que queremos utilizar 
+	arquivos estaticos. E dentro dos paranteses damos a pasta
+	PUBLIC que é onde os nossos arquivos devem estar.
+
+	OBS.: Quando formos referenciar os links na nossa pagina
+	      'main', o 'href' já estará como se estivesse dentro
+	      da pasta PUBLIC, portanto basta colocar apenas a '/'
+	      e o nome do arquivo.
+
+		ex.: <link rel="stylesheet" href="/css/style.css">
+
+
+PARA ADICIONAR UM HEADER NA PAGINA PRINCIPAL(main.hbs)
+
+1- É necessário criar uma pasta chamada 'partials' dentro da pasta
+   'views'. PARTIAL é para arquivos parciais que vão aparacer 
+   sobre a página.
+
+2- Dentro da pasta 'partials' criamos um arquivo .hbs que será
+   onde iremos colocar nossos HEADERS.
+
+3- Na pagina 'main.hbs' é necessário colocar na posição onde
+ficaria o HEADER(semântico), este codigo: {{>NomeDoArquivo}}
+
+	ex.: {{>nav}}
+
+	* >nav : Siginifica que vamos utilizar um arquivo chamado
+		'nav.hbs' da pasta 'partials'.
+
+
+PARA ADICIONAR CONDIÇÕES AO HANDDLEBARS(if)
+
+Dentro da classes(class) dos itens HTML dos arquivos .hbs é onde 
+podemos fazer alterações, e também podemos fazer condições para
+itens coma ajuda dos objetos que podemos criar na RESPOSTA(res)
+das ROTAS(res.render).
+
+	ex.: app.get('/users', (req, res)=> {
+    		res.render('users', {users: true});
+	     });
+
+	- Como podemos ver, na resposta(res.render), criamos um 
+	  objeto chamado 'users' com um valor booleano 'true'. 
+	  Que será valido toda vez que acessar a pagina '/users'.
+
+Agora, dentro de uma tag de um arquivo .hbs podemos adicionar uma
+condição(if), para toda vez que o objeto 'users' existir acontecer 
+alguma mudança.
+
+Para criar um IF em uma class de uma tag HTML utilizamos:
+	- {{#if condição}}
+
+Para fechar a tag IF utilizamos:
+	- {{/if}}
+
+E ENTRE estes sinais vai oque acontece se a condição for aceita.
+
+	ex.: <a class="{{#if users}} active {{/if}}">
+
+	- DENTRO DA CLASSE da tag <a>, SE 'users' existir, a tag
+	  <a> recebe o atributo 'acitive'.
+
+
+
+PARA LER OS VALORES DE UM FORMULÁRIO
+
+- BODYPARSER
+O body-parser permite que o seu servidor Node.js com Express possa
+ler e interpretar os dados enviados no corpo de uma requisição 
+HTTP.
+
+1- É necessário fazer a requisição(require) para ler e interpretar 
+   valores do formulário do FRONTEND para o BACKEND.
+
+	* const bodyParser = require('body-parser');
+
+2- CONFIGURAR o leitor de valores por meio de uma middleware.
+
+	* app.use(bodyParser.urlencoded({extended:false}));
+
+		- .urlencoded() : Para lidar com dados CODIFICADOS
+				  da URL.
+		- { extended: false } :  significa que ele só pode
+					 analisar dados simples.
+					 e não suporta objetos 
+					 aninhados ou matrizes.
+
+3- NO FORMULÁRIO com metodo POST colocamos o atributo 'action'.¨
+
+	* <form action="/cadastro" method="post">
+
+		- action='/cadastro': DEFINE para ONDE queremos 
+				      enviar os valores dos inputs
+				      do formulário. DEFINIR A 
+				      ROTA.
+
+4- Criamos a ROTA para RECEBER os valores do formulário.
+
+	* app.post('/cadastro', (req, res)=> {
+    		res.send(req.body.email);
+	  });
+		- app.post(): um método que define uma rota 
+			      para lidar com REQUISIÇÕES(req).
+				
+			      .post = req  // .get = res
+
+		- req.body.email : 
+			* req.body : É onde os valores do 
+				     formulario são guardados.
+
+			* .email : É o atributo 'name' do input.
+				   Neste caso queremos pegar 
+				   apenas o valor no input de
+				   NOME 'email'.
+
+		OBS.: É MUITO IMPORTANTE o atributo NAME do input,
+		      pois são apartir deles que conseguimos pagar
+		      os valores de um input especifico.
+
+	É nesta ROTA de REQUISIÇÃO em que podemos fazer várias 
+	coisas, como: 
+		- VALIDAÇÃO DOS VALORES que vieram do form;
+		- TRATAMENTO DESTES VALORES;
+		- ENVIAR ESTES VALORES para um banco de dados... 
+
+
+
+VALIDAÇÃO DE VALORES DE UM FORMULÁRIO  
+					 
+Dentro da ROTA '.post' de REQUISIÇÃO, vamos fazer a validação dos
+valores vindos do formulário.
+
+1- Criar variáveis que vão receber os valores dos inputs do form.
+
+	- var nome = req.body.nome;
+    	  var email = req.body.email;
+	
+		* var nome = req.body.nome; : 
+			Vai receber o valor (req.body) do input de
+			atributo 'name:' igual a 'nome'.
+		 
+		* var email = req.body.email; : 
+			Vai receber o valor (req.body) do input de
+			atributo 'name:' igual a 'email'.
+
+
+2- Método para REMOVER ESPAÇOS EM BRANCO: .trim()
+
+	- nome = nome.trim();
+    	  email = email.trim();
+
+	O método '.trin()' remove todos os espaços em branco de
+	dentro dos valores das variaveis.
+
+
+3- RegEx para REMOVER CARACTERES ESPECIAIS.
+
+	- nome = nome.replace(/[^A-zÀ-ú/s]/gi,'')
+
+		* .replace() : Para SUBSTITUIR caracteres. Este 
+			     método tem 2 parametros:
+				1- Caractere que você quer que 
+				   seja	SUBSTITUIDO.
+				2- Caractere que você quer que 
+				   SUBSTITUA.
+
+		* /[^A-zÀ-ú/s]/gi : RegEx(Expressões Regulares),
+				    com algumas cofigurações:
+				
+			- /[ ]/ : Abre e fecha uma RegEx.
+			- ^ : Ancora que corresponde ao inicio da
+			      RegEx.
+			- A-z : De A(maiusculo) a z(minusculo),
+				significa que será ACEITO
+				caracteres de A a Z maiusculo ou 
+				minusculos.
+			- À-ú : De À(maiusculo crazeado) a 
+				ú(minusculo acentuado),
+				significa que a sequencia de
+				vogais de A a U maiuscula ou 
+				minuscula / acentuada ou crazeada
+				também serão ACEITOS.
+			- /s : Significa espaços em branco, que
+			       também serão ACEITOS.
+
+			- gi : Significa que a expressão regular 
+			       deve encontrar TODAS as OCORRENCIAS
+			       do padrão, independentemente se 
+			       estão escritas em maiúsculas ou 
+			       minúsculas.
+
+4- Se o valor da variável está VAZIO, INDEFINIDO ou NULO
+
+	-  const erros = [];
+
+	   if(nome == '' || typeof nome == undefined || 
+	   nome == null) {
+        	erros.push({mensagem: 'Campo nome não pode ser 
+		vazio!'})
+    	   };
+
+		* const erros = []: Array para guardar os erros.
+
+		* nome == '': Se 'nome' for igual a VAZIO.
+
+		* typeof nome == undefined: Se TIPO DE(typeof)
+					    'nome' for igual a
+					    INDEFINIDO.
+
+		* nome == null: Se 'nome' for igual a NULO.
+
+		* erros.push({mensagem: '...'}): 
+			Para ADICIONAR ao array 'erros' um OBJETO
+			com o parametro 'mensagem'.
+
+5- Verificar se o valor da variável é VALIDO.
+	
+	- if(!/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/.test
+	  (nome)) {
+        	erros.push({mensagem: 'Nome inválido!'});
+    	  } 
+
+		* if(!): Se NÃO.
+
+		* /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ ]+$/ :
+			- A-Z: Letras de A-Z(maiusculas);
+			- a-z: Letras de a-z(minusculas);
+			- áàâãéèêíïóôõöúçñ: Letras acentuadas,
+					    ç e ñ (minusculas).
+			- ÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ: Letras acentuadas,
+					    ç e ñ (maiusculas).
+
+		* .test(nome): Para verificar se a RegEx 
+			       corresponde a variável 'nome'.
+			       Neste caso SE NÃO corresponde.
+
+		* erros.push({mensagem: '...'}): 
+			Para ADICIONAR ao array 'erros' um OBJETO
+			com o parametro 'mensagem'.
+
+
+6- Para verificar se um EMAIL é INVALIDO:
+
+	- if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+	  .test(email)) {
+        	erros.push({mensagem: 'Email inválido!'});
+    	  }
+
+		* if(!): Se NÃO. 
+
+		* /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+			- ^: Início da string (e-mail);
+
+			- [a-zA-Z0-9._-]+: Permite letras 
+				(maiúsculas e minúsculas), números
+				, ponto, sublinhado e hífen, um 
+				ou mais vezes.
+		
+			- @: Caractere "@" obrigatório.
+
+			- [a-zA-Z0-9.-]+: Permite letras, números,
+				 ponto e hífen, um ou mais vezes.
+
+			- \.: Ponto literal.
+
+			- [a-zA-Z]{2,}: Permite duas ou mais 
+					letras (domínio).
+
+			- $: Fim da string. 
+
+		* .test(email): Para verificar se a RegEx 
+			        corresponde a variável 'email'.
+			        Neste caso SE NÃO corresponde.
+
+		* erros.push({mensagem: '...'}): 
+			Para ADICIONAR ao array 'erros' um OBJETO
+			com o parametro 'mensagem'.
+
+
+
+PARA GUARDAR ERROS DE UMA VALIDAÇÃO EM UMA SESSÃO(express.session):
+
+Para armazenar os erros de uma validação é necessário criar uma 
+SESSÃO. 
+
+SESSÃO, armazena dados da sessão no servidor, permitindo que o 
+estado de um usuário seja mantido entre solicitações. A sessão é 
+identificada por um ID, que é armazenado num cookie no cliente. 
+
+Basicamente, guardar dados em uma requisição(ROTA) e conseguir 
+usar-las em escopo GLOBAL.
+
+1- PARA INSTALAR EXPRESS.SESSION NO PROJETO:
+
+	- npm install express-session --save
+
+2- Fazer a requisição do modulo.
+
+	- const session = require('express-session');
+
+3- CONFIGURAR a sessão:
+
+	- app.use(session({
+    		secret: 'CriaUmaChaveQualquer',
+    		resave: false,
+    		saveUninitialized: true
+	  }));	
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- app.use(session({})) :
+		Middleware para configurar a seção. As 
+		configurações ficam em um objeto{}.
+
+		2- secret: 'CriaUmaChaveQualquer':
+		Chave secreta para criptografar o cookie da sessão
+
+		3- resave: false : 
+		Não forçar salvar a sessão se não foi alterada.
+
+		4- saveUninitialized: true :
+		Não salvar sessões não iniciadas.
+
+4- Acessar a SESSÃO em uma requisição e guardar valores.
+	
+     Para acessar a sessão basta usar 'req.session', e para 
+     armazenar algum dado é necessário que coloque o nome da propriedade
+     depois:
+         ex.: req.session.errors. 
+     Neste caso para armazenar os erros. Daí é só dar o valor que
+     a sessão irá guardar.
+
+	- app.post('/cadastro', (req, res)=> {
+		const erros = [...];
+		if(erros.length > 0) {
+	  		req.session.errors = erros;
+          		req.session.sucess = false;
+          		return res.redirect('/');
+		};
+		req.session.sucess = true;
+		return res.redirect('/');
+	  });
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- app.post('/cadastro', (req, res)=> {}):
+		Requisição para a rota '/cadastro'
+
+		2- const erros = [...]: 
+		Constante onde foram armazenados os ERROS.
+
+		3- if(erros.length > 0) {}:
+		Se o COMPRIMENTO do array 'erros' for maior que 0...
+
+		4- req.session.errors = erros:
+		Manda a sessão armazenar o array 'erros' na 
+		propriedade '.errors'.
+
+		5- req.session.sucess= false:
+		Manda a sessão armazenar o valor FALSE na 
+		propriedade '.sucess'.
+		VALIDAÇÃO NÃO TEVE SUCESSO.
+
+		6- return res.redirect('/'):
+		Manda RETORNAR a RESPOSTA(res) redirecionando para
+		a pagina principal('/').
+
+		7- req.session.sucess = true:
+		Caso NÃO tenha ERROS, manda a sessão armazenar
+		o valor TRUE na propriedade '.sucess'.
+		VALIDAÇÃO TEVE SUCESSO.
+
+		8- return res.redirect('/'):
+		Manda RETORNAR a RESPOSTA(res) redirecionando para
+		a pagina principal('/').
+	
+			
+
+MOSTRAR MENSAGENS DE SUCESSO/ERRO.
+
+1- Na pasta PARTIALS vamos criar um arquivo chamado 'msg.hbs', que
+   será onde ficarão os ALERTS de sucesso e erro.
+
+2- Como EXISTINDO ou NÃO EXISTINDO erros redirecionamos para a 
+   página principal('/')...
+   NA ROTA DA PÀGINA PRINCIPAL VAMOS VERIFICAR SE HOUVERAM ERROS 
+   OU NÃO:
+
+	- app.get('/', (req, res)=> {
+    		if(req.session.errors){
+        	     let arrayErros = req.session.errors;
+        	     req.session.errors = '';
+       		     res.render('index', {msgError: arrayErros});
+    		};
+   		if(req.session.sucess){
+		     req.session.sucess = false;
+        	     res.render('index', {msgSucess: true});
+    		}
+	  });
+
+	EXPLICAÇÃO POR LINHA:
+
+	1- app.get('/', (req, res)=> {}):
+	Rota para pagina principal '/'.
+
+	2- if(req.session.errors){}:
+	SE EXISTIR a propriedade '.errors' na SESSÃO...
+
+	3- let arrayErros = req.session.errors;
+	Cria uma variavel que recebe os ERROS da SESSÃO.
+
+	4- req.session.errors = '':
+	A propriedade '.errors' da SESSÃO recebe VAZIO. Para que
+	toda vez que haja a VALIDAÇÃO a propriedade '.errors' da 
+	SESSÃO esteja vazia para receber os valores da nova
+	requisição.
+
+	5- res.render('index', {msgError: arrayErros}):
+	Vai RESPONDER(res.render):
+		- 'index': A página 'index.hbs'.
+		- {msgError: arrayErros}: Cria o objeto 'msgError'
+					  que recebe a variavel
+				   	  'arrayErros', que tem
+					  os erros da SESSÃO.
+
+	6- if(req.session.secess){}:
+	SE a propriedade da SESSÃO '.sucess' existir(true)...
+
+	7- req.session.sucess = false:
+	Para que a propriedade da SESSÃO '.sucess' volte ao seu
+	estado original. E quando atualizarmos a página a mensagem
+	suma da tela e aguarde a nova interação do usuário.
+
+	8- res.render('index', {msgSucess: true}):
+	Vai RESPONDER(res.render):
+		- 'index': A página 'index.hbs'.
+		- {msgSucess: true}: Cria o objeto 'msgSucess'
+				     que recebe TRUE.
+
+3- CONDIÇÕES para as mensagens na APARECEREM tela.
+
+    No arquivo 'msg.hbs' da pasta PARTIAL...
+    Vamos fazer condições para a mensagem de SUCESSO e de ERRO:
+
+	* {{#if msgSucess}}
+	  <div class="alert alert-success" role="alert">
+  		Cadastrado com SUCESSO!
+	  </div>
+	  {{/if}}
+
+	- SE o objeto 'msgSucess' EXISTIR, vai mostrar a mensagem 
+	de SUCESSO.
+
+
+	* {{#each msgError}}
+	  <div class="alert alert-danger" role="alert">
+  		{{mensagem}}
+	  </div>
+	  {{/each}}
+
+	- SE o objeto 'msgError' EXISTIR, vai PERCORRER-lo(each).
+	OBS.: Porque 'msgError' é um array.
+	- Vai mostrar o objeto 'mensagem' de cada indice do array
+	  'msgError'.	
+
+4- MOSTRAR as mensagens na tela:
+
+     Para mostrar a mensagem basta, no arquivo raiz 'main.hbs' ou
+     no arquivo do FORMULÁRIO(index.hbs) e 
+     indicar que quer mostrar a mensagem, desta forma:
+
+	- {{>msg}}
+
+	* Isto indica que queremos mostrar o arquivo 'msg.hbs' da
+	  pasta PARTIALS('>').
+
+    Pronto, sempre que uma das condições do arquivo 'msg.hbs' ou
+    'index.hbs'(Dependendo da sua escolha) for verdadeira, 
+    vai mostrar a mensagem correspondente.
+
+
+
+
+ARMAZENANDO DADOS EM UM BANCO DE DADOS(MySQL)
+
+	ARQUIVO USADO PARA EXEMPLOS: crud-node/models/db.js
+
+   ORM(Object-Relational Mapping)
+	
+   É uma técnica que simplifica a interação entre código de 
+   aplicação e bancos de dados relacionais. Em vez de escrever 
+   consultas SQL diretamente, os desenvolvedores podem trabalhar 
+   com objetos que são automaticamente mapeados para tabelas no 
+   banco de dados.
+   EM OUTRAS PALAVRAS... 
+   É o responsável por fazer o meio de campo, entre o nosso App e
+   o BANCO DE DADOS. E neste caso vamos usar o SEQUELIZE.
+
+
+   SEQUELIZE
+
+   É um ORM para Node.js, permitindo trabalhar com objetos 
+   JavaScript em vez de escrever SQL diretamente.
+
+
+   XAMPP
+
+   É um pacote que contém os principais componentes necessários 
+   para criar um servidor web, como o servidor web Apache, um 
+   sistema de gerenciamento de banco de dados (MySQL ou MariaDB),
+   e interpretadores para as linguagens de programação PHP e Perl.
+
+   Neste caso iremos Utiliza-lo para gerencimaento do banco de 
+   dados MySQL. 
+
+
+   INSTALAR NO PEOJETO:
+	- npm install --no-proxy sequelize mysql2 --save
+
+
+CONFIGURANDO O SEQUELIZE PARA CONECTAR-SE COM O BANCO DE DADOS 
+
+
+1- Crie uma pasta chamada MODELS. Que por padrão, é onde ficam os
+   arquivos relacionados ao BANCO DE DADOS.
+
+
+2- Crie um arquivo chamado 'db.js'. Para configurar a
+   conecção entre a nossa aplicação e o banco de dados.
+
+
+3- Faça o requerimento dos modulo SEQUELIZE:
+
+	- const Sequelize = require('sequelize');
+
+	OBS.: IMPORTANTE que a constante comece com a letra 
+	      MAIUSCULA, Pois o modulo do Sequelize começa com
+	      maiuscula.
+
+
+4- Crie a INSTANCIA para o módulo Sequelize:
+
+	- const sequelize = new Sequelize('banco','usuario', 
+	  'senha', {...});
+
+
+		* const sequelize: Representa a instancia do 
+				   modulo Sequelize.
+
+		* new Sequelize(): Cria uma NOVA(new) instancia
+				   para o método Sequelize. E nele
+				   temos 4 parametros:
+
+			1- 'banco': Nome do Banco de dados;
+			2- 'usuario': Usuario;
+			3- 'senha': Senha;
+			4- {}: Objeto onde vão as configurações
+			       de conexão. 
+
+
+5- Configure a conexão do banco de dados:
+
+	- const sequelize = new Sequelize('banco','usuario',
+	  'senha', {
+    
+    		host: '127.0.0.1',
+    		dialect: 'mysql',
+    		define: {
+        		charset: 'utf8',
+       		 	collate: 'utf8_general_ci',
+        		timestamps: true
+    		},
+    		logging: false
+	  });
+
+
+		* host: '127.0.0.1': Numero de IP do 
+				     Servidor(host), que no caso é
+				     o XAMPP.
+
+		* dialect: 'mysql': Tipo de Banco de dandos, no
+				    Dialeto(dialect), que no caso 
+				    é MySQL.
+
+		* Logging: false : Para não conjestionar o 
+				   terminal com LOGS toda vez que
+				   rodar o banco de dados.
+
+		(OPCIONAL) 
+		* define: {...} : Para configurações adicionais...
+
+			- charset: 'utf8': Para aceitar todos os
+					   caracteres da lingua
+					   portuguesa.
+
+			- collate: 'utf8_general_ci': 
+				Para a TABELA também aceitar todos
+				os caracteres.
+
+			- timestamps: true : Para salvar as 
+					     alterações as 
+					     informações sobre as
+					     alterações, como 
+					     data...etc.
+
+
+
+
+CRIANDO O BANCO DE DADOS NO XAMPP
+
+1- Clique START em: Apache(servidor), Mysql(banco).
+
+2- No MySQL Clique em ADMIN para abrir o 'phpMyAdmin'.
+
+3- Clique em 'Novo', Dê um nome ao banco de dados e clique em
+   CRIAR.
+
+4- Na INSTANCIA do SEQUELIZE, no PRIMEIRO parametro digite o nome
+   do seu Banco de dados. No caso é 'node_exemplo'.
  
+   ex.: const sequelize = new Sequelize('node_exemplo','usuario',
+       'senha', {...})
+
+5- No usuário por padrão do XAMPP é 'root' e a senha é vazio ('').
+
+   ex.: const sequelize = new Sequelize('node_exemplo', 'root',
+        ' ', {...})
+
+6- Teste a conexão do Banco de dados:
+
+	- sequelize.authenticate().then(()=> {
+    		console.log('Conexão no banco com Sucesso!');
+	  }).catch((err)=> {
+   		 console.log('Falha ao se conectar' +err);
+	  });
+
+	EXPLICAÇÃO:
+
+		1- sequelize.authenticate(): Para fazer a 
+					     autenticação do banco
+					     CONECTAR COM O BANCO.
+
+		   * .then(()=>{}): SE DER CERTO(then), e uma 
+				    função CALLBACK com uma 
+				    mensagem.
+
+		   * .catch((err)=>{}): SE DER ERRADO(catch), com
+					uma função CALLBACK com
+					um parametro 'err' para 
+					capturar o erro e mostrar
+					na mensagem da função.
+
+7- Apague o TESTE, para não ficar conectando sempre que rodar o 
+   servidor.
+
+8- EXPORTE o MODULO e a INSTANCIA do SEQUELIZE:
+
+	- module.exports = {Sequelize, sequelize};
+
+		* module.exports: Para exportar como objeto{}.
+
+		* Sequelize('S' maiusculo): Modulo do Sequelize.
+
+		* sequelize('s' minusculo): Instancia do Sequelize.
+
+
+
+
+CRIANDO OS MODELOS PARA A CRIAÇÃO DA TABELA NO BANCO DE DADOS
+
+Os MODELS(modelos) representam as tabelas do banco de dados e 
+fornecem métodos para realizar operações CRUD (Create, Read, 
+Update, Delete) de forma mais organizada e segura.
+
+ 
+
+
+
+
+
+BOOTSRAP
+
+PARA IMPORTAR O CSS E O SCRIPT DO BOOTSTRAP é só ir no site oficial
+getbootsrap.com  copiar e colar os links do CDN no seu arquivo 
+'main.hbs'. 
