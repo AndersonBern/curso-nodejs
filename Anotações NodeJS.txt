@@ -1774,7 +1774,8 @@ OBS.: TODA VEZ que RODAR o servidor vai ser CRIADA A TABELA com
 
       Portanto, SEMPRE que rodar o servidor, é OBRIGATÓRIO que o
       servidor APACHE e o MySQL estejam ATIVADOS no XAMPP.
-				       
+		
+		       
 
 
 SALVAR OS DADOS DO FORMULARIO NO BANCO DE DADOS
@@ -1796,10 +1797,10 @@ vamos salvar os dados no banco de dados.
 					 E adiciona o objeto a 
 					 tabela no banco de dados.
 
-		* nome: Nome : A propriedade 'nome' recebe a 
+		* nome: Nome : A COLUNA 'nome' recebe a 
 			       variavel 'Nome'(o valor dela).
 
-		* email: Email.toLowerCase(): A propriedade 
+		* email: Email.toLowerCase(): A COLUNA 
 				'email' recebe a variavel 'Email',
 				em letras minusculas(toLowerCase).
 
@@ -1844,6 +1845,157 @@ vamos salvar os dados no banco de dados.
 				Mensagem de fracasso e mostra o 
 				ERRO. 
 
+
+
+
+PARA PUXAR INFORMAÇÕES DO BANCO DE DADOS:
+
+NA ROTA ONDE VOCÊ QUER MOSTRAR OS VALORES...
+Neste caso queremos mostrar os valores do banco de dados no pagina
+'/users'.
+
+
+1- ENCONTRE os valores da tabela usando .findAll():
+
+   - Usuario.findAll().then(()=> {...}).catch((err)=>{...})
+
+	* Usuario.findAll(): Encontra todos os VALORES existentes
+			     na tabela do Banco de dados.
+
+	* .then(()=>{}): SE DER CERTO...CALLBACK.
+
+	* .catch((err)=>{}): SE DER ERRADO...CALLBACK.
+
+
+2- VERIFIQUE SE OS VALORES EXISTEM OU NÃO:
+
+	- Usuario.findAll().then((valores)=> {
+        	if(valores.length > 0) {
+            		return res.render('users', {
+			table: true, usuarios: valores.map(
+			valores => valores.toJSON())});
+         	}
+         	else {
+            	res.render('users', {table: false});
+        	};
+
+	  }).catch((err)=> {
+        	console.log(`Houve algum problema: ${err}`)
+   	  });
+
+	EXPLICAÇÃO POR LINHA:
+
+	1- Usuario.findAll().then((valores)=> {}):
+
+		- Usuario.findAll(): Encontra os valores da tabela
+				     no banco de dados.
+
+		- .then((valores)=>{}): Função callback, com o 
+					parametro 'valores', que
+					captura todos os dados que
+					foram encontrados em um 
+					ARRAY.
+
+	2- if(valores.length > 0) {}: 
+		
+		- Se o cumprimento(.length) de 'valores' for maior 
+		  que 0... SE EXISTIR VALORES...
+
+	3- return res.render('users', {table: true, usuarios: 
+	   valores.map(valores => valores.toJSON())}):
+
+		- return res.render('users',{...}):
+			RETORNA e RENDERIZA(.render) a pagina
+			'/users', e um objeto{} com propriedades a
+			serem usados pelo HANDDLEBARS.
+
+		- 'users': Pagina '/users'.
+
+		-  table: true : Propriedade 'table' recebe o 
+				 valor TRUE. Esta propriedade
+				 vai indicar ao HANDDLEBARS que
+				 a TABELA EXISTE.
+
+		- usuarios: valores.map(valores=>valores.toJSON())
+			A propriedade 'usuarios' recebe 'valores'.
+		
+			* valores.map(): Mapeia os valores do 
+					 array 'valores'. E aplica
+					 a função passada como
+					 parametro em CADA objeto
+					 do array 'valores'.
+
+			* valores=>valores.toJSON(): 
+				Cria um NOVO array contendo os
+				valores do array 'valores', e
+				transforma-os para JSON(.toJSON).
+
+		OBS.: TRANSFORMAR OS OBJETOS DO ARRAY 'VALORES' EM
+		      'JSON' FACILITA A MANIPULAÇÃO COM O 
+		      HANDDLEBARS.
+
+	4- else{}: SE NÃO...
+
+	5- res.render('users', {table: false}):
+	
+		- return res.render('users',{...}):
+			RETORNA e RENDERIZA(.render) a pagina
+			'/users', e um objeto{} com propriedades a
+			serem usados pelo HANDDLEBARS.
+
+		- 'users': Pagina '/users'.
+
+		-  table: false : Propriedade 'table' recebe o 
+				  valor FALSE. Esta propriedade
+				  vai indicar ao HANDDLEBARS que
+				  a TABELA NÃO EXISTE. 
+
+	6- .catch((err)=> {}): SE DER ERRADO...CALLBACK.
+
+
+
+
+PARA MOSTRAR OS VALORES CAPTURADOS NA TELA:
+
+Com os OBJETOS{} e suas propriedades a ser usadas pelo HANDDLEBARS
+vamos verificar se a TABELA EXITE OU NÃO e MOSTRAR NA TELA.
+NA PAGINA ONDE VOCÊ QUER MOSTRAR OS VALORES...
+Neste caso queremos mostrar os valores do banco de dados no pagina
+'users.hbs'.
+
+
+1- No ARQUIVO 'users.hbs', vamos verificar se a tabela existe.
+
+	- {{#if table}}
+	  <table>
+	  ...
+	  </table>
+	  {{/if}}
+
+		* {{#if table}}: SE a propriedade 'table' for TRUE.
+				 Vai mostrar a <table>.
+
+		* {{/if}}: Fecha o if.
+
+	OBS.: Abra se IF ANTES da tag <table> e FECHE após a tag
+	      </table>.
+
+
+2- Crie uma condição caso a propriedade 'table' for FALSE.
+
+	- {{#if table}}
+	  <table>
+	  ...
+	  </table>
+	  {{else}}
+	  <div>
+      	     Nenhum dado encontrado!
+    	  </div>
+	  {{/if}}
+
+		* {{else}}: SE NÃO...VAI MOSTRAR A <div>.
+
+	OBS.: NÃO é necessário FECHAR o 'else', somente o 'if'.
 
 
 
