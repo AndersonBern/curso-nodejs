@@ -1718,8 +1718,9 @@ Update, Delete) de forma mais organizada e segura.
 				  	determina que o valor
 					da coluna vai 
 					incrementar +1, toda vez
-					que um novo 'usuario' for
-					adicionado a tabela.
+					que uma nova tabela 
+					'usuario' for adicionada 
+					ao banco de dados.
 
 		4- allowNull: false: Não aceita valores NULOS.
 
@@ -1764,11 +1765,84 @@ Update, Delete) de forma mais organizada e segura.
 
 INTEGRAR O MODELO DA TABELA AO CÓDIGO PRINCIPAL DO PROJETO
 
-1- Faça a REQUISIÇÃO do MODELO da tabela no seu 'index.js':
+1- Fazer a REQUISIÇÃO do MODELO da tabela no seu 'index.js':
 
 	- const Usuario = require('./models/Usuario');
+
+OBS.: TODA VEZ que RODAR o servidor vai ser CRIADA A TABELA com
+      o MODELO dentro do BANCO DE DADOS caso ela não exista.
+
+      Portanto, SEMPRE que rodar o servidor, é OBRIGATÓRIO que o
+      servidor APACHE e o MySQL estejam ATIVADOS no XAMPP.
 				       
 
+
+SALVAR OS DADOS DO FORMULARIO NO BANCO DE DADOS
+
+Com o MODELO da tabela já integrado ao código principal...
+Após todo o processo de VALIDAÇÃO dos dados, e estando tudo certo
+vamos salvar os dados no banco de dados.
+
+1- CRIE e ADICONE um novo objeto{} a tabela do banco de dados:
+
+	- Usuario.create({
+        	nome: Nome,
+        	email: Email.toLowerCase()
+    	  })
+
+
+		* Usuario.create({...}): Cria um novo objeto 
+					 usando o MODELO como base
+					 E adiciona o objeto a 
+					 tabela no banco de dados.
+
+		* nome: Nome : A propriedade 'nome' recebe a 
+			       variavel 'Nome'(o valor dela).
+
+		* email: Email.toLowerCase(): A propriedade 
+				'email' recebe a variavel 'Email',
+				em letras minusculas(toLowerCase).
+
+2- VERIFIQUE se deu CERTO(.then) ou ERRADO(.catch):
+
+	- Usuario.create({
+        	nome: nome,
+        	email: email.toLowerCase()
+    	  }).then(()=> {
+        	console.log('Cadastrado com sucesso!');
+        	req.session.sucess = true;
+        	return res.redirect('/');
+    	  }).catch((err)=> {
+        	console.log('Ops...Houve algum erro: '+ err);
+    	  });
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- Usuario.create({...}): Cria e adiciona o objeto
+					  ao banco de dados.
+
+		2- .then(()=>{...}) : SE DER CERTO(then), e uma 
+				      função callback.
+
+		3- console.log('Cadastrado com sucesso!'): 
+				Mensagem de sucesso.
+	
+		4- req.session.sucess = true: Altera para TRUE o
+					      valor da 
+					      propriedade da 
+					      sessão '.sucess'.
+
+		5- return res.redirect('/'): Redireciona para a
+					     pagina principal '/'.
+
+		6- .catch((err)=>{...}): SE DER ERRADO(then), e 
+					 uma função callback com
+					 o parametro 'err' para
+					 capturar o ERRO.
+
+		7- console.log('Ops...Houve algum erro: '+ err):
+				Mensagem de fracasso e mostra o 
+				ERRO. 
 
 
 
