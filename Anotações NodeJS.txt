@@ -2102,15 +2102,15 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
           </form>
 
 	OBS.: É OBRIGATÓRIO que seja um <button>. Qualquer outro
-	      tipo de tag não vai disparar o envio do formulário.
+	      tipo de tag não vai disparar o envio do formulário. 
 
 
 4- NO CODIGO PRINCIPAL(index.js), na ROTA '/editar', vamos alterar
-   o tipo de rota para POST:
+   o tipo de rota de '.get' para POST:
 
 	-  app.post('/editar', (req, res)=> {...})
 
-		* Era '.get'(pegar), agora é '.post'(enviar).
+		* ERA '.get'(pegar), AGORA É '.post'(enviar).
 
 
 5- Vamos criar a variável que vai receber o valor do INPUT oculto
@@ -2127,8 +2127,162 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 
 			- .id: É o atributo 'name' do <input>.
 
-6- 
 
+6- FAZER CONSULTA da tabela(item) correspondente ao 'id' enviado 
+   pelo <form>. Utilzando o método do SEQUELIZE '.findByPk()':
+
+	- Usuario.findByPk(id).then(...).catch(...);
+
+		* Usuario.findByPk(id): 
+
+			- Usuario: Representa a TABELA(com os 
+				   métodos do Sequelize).
+
+			- .findByPk(id): Encontre(find) pela(by)
+					 Chave-Primaria(Pk).
+					 E a variavel 'id' como
+					 argumento. Pois o ID é a
+					 chave-primaria da nossa 
+					 tabela.
+
+		* .then(...): Se der CERTO...CALLBACK.
+
+		* .catch(...): Se der ERRADO...CALLBACK.
+
+
+7- O que acontece se der CERTO e ERRADO:
+
+    SE DER CERTO:
+	
+	- Usuario.findByPk(id).then((dados)=> {
+        	return res.render('editar', {error: false, 
+		id: dados.id, nome: dados.nome, 
+		email: dados.email});
+    	  }).catch(...);
+
+	EXPLICAÇÃO POR LINHA:
+	
+		1- .then((dados)=>{}): Se der CERTO(then), e a 
+				      função callback, que recebe
+				      como argumento 'dados', que
+				      são os DADOS DA TABELA 
+				      correnpondente ao 'id'.
+
+		       OBS.: Os DADOS SEMPRE vem como um OBJETO{}.
+
+		2- return res.render('editar', {...}):
+			RETORNA(return) e como RESPOSTA(res) 
+			RENDERIZA(.render):
+
+				- 'editar': A pagina '/editar'.
+
+				- {...}: É um objeto{} com 
+					 propriedades a serem 
+					 usados pelo HANDDLEBARS.
+
+		3- {error: false, id: dados.id, nome: dados.nome, 
+		   email: dados.email}: 
+
+			- error: false : Propriedade 'error' 
+					 recebe FALSE, para 
+					 representar que NÃO houve
+					 ERROS.
+			
+			- id: dados.id : Propriedade 'id' recebe o
+					 valor da propriedade 'id'
+					 do objeto contido dentro
+					 de 'dados'.
+
+			- nome: dados.nome : Propriedade 'nome' 
+					     recebe o valor da 
+					     propriedade 'nome'
+					     do objeto contido 
+					     dentro de 'dados'.
+
+			- email: dados.email : Propriedade 'email' 
+					       recebe o valor da 
+					       propriedade 'email'
+					       do objeto contido 
+					       dentro de 'dados'.
+
+
+    SE DER ERRADO:
+
+	- Usuario.findByPk(id).then(...
+	  ).catch((err)=> {
+        	console.log(err);
+        	return res.render('editar', {error: true, 
+		problema: 'Não é possivel EDITAR este registro!'});
+    	  });
+
+	EXPLICAÇÃO POR LINHA:
+		
+		1- .catch((err)=> {...}): Se der ERRADO(catch) e a
+					  função callback, com o 
+					  'err' como argumento.
+					  'err' captura o ERRO que
+					  aconteceu.
+
+		2- console.log(err): Mensagem para mostrar o ERRO.
+
+		3- return res.render('editar', {...}):
+			RETORNA(return) e como RESPOSTA(res) 
+			RENDERIZA(.render):
+
+				- 'editar': Pagina '/editar'.
+
+				- {...}: É um objeto{} com 
+					 propriedades a serem 
+					 usados pelo HANDDLEBARS.
+
+		4- {error: true, problema: 'Não é possivel...'}:
+			
+			- error: true : Propriedade 'error' recebe
+					TRUE, para representar que
+					HOUVERAM ERROS.
+
+			- problema: '...': Propriedade 'problema'
+					   recebe uma string ('').
+					   Que será a mensagem a 
+					   ser mostrada ao usuario.
+
+
+8- VALIDAÇÃO se NÃO houver ERRO na página 'editar.hbs'.
+   Utilizando o #unless:
+
+	- {{#unless error}}
+	  <form>
+	   ...
+	  </form>
+	  {{/unless}}
+
+		* {{unless error}}: SE 'error' for FALSE...
+
+   OBS.: {{#unless}}: Funciona como o INVERSO do IF. Seu bloco 
+		      será renderizado se a expressão retornar 
+		      um valor FALSO.
+
+				    
+9- VALIDAÇÃO se HOUVER ERRO na página 'editar.hbs' com {{else}}:
+
+	-  {{#unless error}}
+	  <form>
+	   ...
+	  </form>
+	  {{else}}
+	  <div>
+	     Houve um problema: {{problema}}
+	  </div>
+	  {{/unless}}
+
+		* {{else}}: Se 'error' for TRUE...
+			    Vai mostrar uma mensagem, e a 
+			    propriedade 'problema'.
+
+	OBS.: O {{else}} não é necessário ser fechado, e ele fica 
+	      DENTRO da estrutura de condição {{#unless}}.
+
+	
 
 
 BOOTSRAP
