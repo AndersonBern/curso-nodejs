@@ -2052,7 +2052,79 @@ Neste caso queremos mostrar os valores do banco de dados no pagina
 	OBS.: O INDICE SERÁ INCREMENTADO toda vez que o 'each'
 	      repetir, de acordo com o comprimento do array 
 	      contido em 'usuarios'.
+
+
+
+
+EDITAR/ATUALIZAR DADOS DO BANCO DE DADOS:
+
+No arquivo 'users.hbs', onde está o BOTÃO de EDITAR, vamos 
+fazer algumas alterações para que este botão envie um formulário 
+para A ROTA DE EDIÇÃO(/editar) com o valor do ID da tabela
+que queremos EDITAR.
+
+1- No arquivo(users.hbs) na <div> do botão que REDIRECIONA para
+a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um 
+<form> que APONTA para a ROTA '/editar':
+
+	- <form action="/editar" method="post">...</form>
 	       
+		* action: Para APONTAR para a rota da pagina de
+			  EDIÇÃO '/editar'.
+
+		* method='post': Para ENVIAR o formulário.
+
+
+2- Crie um INPUT OCULTO que receba o valor do ID da tabela(item)
+   em que o botão se encontra. 
+
+	- <form action="/editar" method="post">
+                  <input type="hidden" name="id" value="{{id}}">
+          </form>
+
+		* type="hidden": Para que o INPUT fique 
+		  OCULTO(hidden).
+
+		* name="id": O NOME, que por meio dele é feita a
+ 			     manipulação com JS.
+
+		* value="{{id}}": É o valor, que recebe o ID
+				  da tabela(item) da qual ele 
+				  pertence.
+
+
+3- Coloque o <button>(botão) dentro do <form>(formulário), para 
+   que ele DISPARE o envio do formulário para ROTA '/editar'.
+
+	- <form action="/editar" method="post">
+                  <input type="hidden" name="id" value="{{id}}">
+		  <button class="w-100 btn">Editar</button>
+          </form>
+
+
+4- NO CODIGO PRINCIPAL(index.js), na ROTA '/editar', vamos alterar
+   o tipo de rota para POST:
+
+	-  app.post('/editar', (req, res)=> {...})
+
+		* Era '.get'(pegar), agora é '.post'(enviar).
+
+
+5- Vamos criar a variável que vai receber o valor do INPUT oculto
+   que contém o ID da tabela(item) que queremos EDITAR.
+
+	-  app.post('/editar', (req, res)=> {
+    		let id = req.body.id;
+	   });
+
+		* let id = req.body.id:
+
+			- req.body: É usado para acessar dados 
+				    enviados do formulário.
+
+			- .id: É o atributo 'name' do <input>.
+
+6- 
 
 
 
