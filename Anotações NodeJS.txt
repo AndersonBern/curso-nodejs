@@ -1859,7 +1859,8 @@ Neste caso queremos mostrar os valores do banco de dados no pagina
 
    - Usuario.findAll().then(()=> {...}).catch((err)=>{...})
 
-	* Usuario.findAll(): Encontra todos os VALORES existentes
+	* Usuario.findAll(): Metodo do Sequelize que encontra 
+			     todos os VALORES existentes
 			     na tabela do Banco de dados.
 
 	* .then(()=>{}): SE DER CERTO...CALLBACK.
@@ -1996,6 +1997,62 @@ Neste caso queremos mostrar os valores do banco de dados no pagina
 		* {{else}}: SE NÃO...VAI MOSTRAR A <div>.
 
 	OBS.: NÃO é necessário FECHAR o 'else', somente o 'if'.
+
+
+3- Vamos pegar a tag <tr>(colunas da table) no 
+   <tbody>(corpo da table) e criar uma estrutura de repetição
+   EACH:
+
+	- {{#each usuarios}}
+	  <tr>
+	  ...
+	  </tr>
+	  {{/each}}
+
+		* {{#each usuarios}}: Vai repetir as colunas de 
+				      acordo com o comprimento do
+				      array contido na
+				      propriedade 'usuários'.
+
+		* {{/each}}: Fecha o EACH.
+
+
+4- INDICAR os valores a serem mostrados nas colunas:
+
+	 - {{#each usuarios}}
+      	   <tr>
+        	<th>{{id}}</th>
+        	<td>{{nome}}</td>
+        	<td>{{email}}</td>
+	   </tr>
+	   {{/each}}
+
+	EXPLICAÇÃO POR LINHA:
+
+		1- <th>{{id}}</th>: Na tag <th> vai mostrar a
+				    propriedade 'id' de dentro
+				    do objeto{} do indice[0]
+				    do array contido dentro
+				    de 'usuarios'.
+
+		2- <td>{{nome}}</td>: Na tag <td> vai mostrar a
+				      propriedade 'nome' de dentro
+				      do objeto{} do 
+				      indice[0] do array contido 
+				      dentro de 'usuarios'.
+
+
+		3- <td>{{email}}</td>: Na tag <td> vai mostrar a
+				       propriedade 'email' de 
+				       dentro do objeto{} do 
+				       indice[0] do array 
+				       contido dentro de 
+				       'usuarios'.
+
+	OBS.: O INDICE SERÁ INCREMENTADO toda vez que o 'each'
+	      repetir, de acordo com o comprimento do array 
+	      contido em 'usuarios'.
+	       
 
 
 
