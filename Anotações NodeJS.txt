@@ -2101,6 +2101,9 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 		  <button class="w-100 btn">Editar</button>
           </form>
 
+	OBS.: É OBRIGATÓRIO que seja um <button>. Qualquer outro
+	      tipo de tag não vai disparar o envio do formulário.
+
 
 4- NO CODIGO PRINCIPAL(index.js), na ROTA '/editar', vamos alterar
    o tipo de rota para POST:
