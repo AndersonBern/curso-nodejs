@@ -2247,7 +2247,7 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 					   ser mostrada ao usuario.
 
 
-8- VALIDAÇÃO se NÃO houver ERRO na página 'editar.hbs'.
+8- VALIDAÇÃO se NÃO houver ERRO na página de EDIÇÃO 'editar.hbs'.
    Utilizando o #unless:
 
 	- {{#unless error}}
@@ -2259,11 +2259,12 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 		* {{unless error}}: SE 'error' for FALSE...
 
    OBS.: {{#unless}}: Funciona como o INVERSO do IF. Seu bloco 
-		      será renderizado se a expressão retornar 
-		      um valor FALSO.
+		      será renderizado se a expressão tiver 
+		      um valor FALSO .
 
 				    
-9- VALIDAÇÃO se HOUVER ERRO na página 'editar.hbs' com {{else}}:
+9- VALIDAÇÃO se HOUVER ERRO na página de EDIÇÃO 'editar.hbs' 
+   usando {{else}}:
 
 	-  {{#unless error}}
 	  <form>
@@ -2282,6 +2283,29 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 	OBS.: O {{else}} não é necessário ser fechado, e ele fica 
 	      DENTRO da estrutura de condição {{#unless}}.
 
+
+10- MOSTRAR DADOS da tabela correspondente ao ID na página de 
+    EDIÇÃO 'editar.hbs'.
+
+    No <form>, vamos adicionar o atributo 'value' nos INPUTS. 
+    O atributo 'value' PREENCHE o campo. E com isso podemos 
+    adicionar os DADOS em 'value', para que o usuario possa fazer
+    alterações: 
+
+	- <form>
+        	<div>
+                     <label for="nome">Nome Completo</label>
+
+                     <input value="{{nome}}" type="text" 
+		     id="nome" name="nome">
+		</div>
+	  </form>
+
+		* <input value="{{nome}}"...> : Desta forma o 
+						campo vai estar 
+						preenchido pelo
+						valor da 
+						propriedade 'nome'.
 	
 
 
