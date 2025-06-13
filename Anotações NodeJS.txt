@@ -2308,6 +2308,115 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 						propriedade 'nome'.
 	
 
+11- Para ATUALIZAR as mudanças feitas no BANCO DE DADOS:
+
+  1- Para isso, é necessário criar um INPUT OCULTO, para pegar o
+    'ID' da tabela que estamos editando.
+
+	- <input type="hidden" name="id" value="{{id}}">
+
+		* type="hidden": Tipo OCULTO do <input>.
+
+		* name="id": Nome do <input>, pelo qual será usado
+			     pelo JS para capturar as informações
+			     do <input>.
+
+		* value="{{id}}": VALOR do <input>, recebe o ID
+				  da TABELA.
+
+
+  2- Agora precisamos adicionar ao <form> os atributos 'action' e
+     'method', para ENVIAR o formulário para a ROTA que fará a 
+     ATUALIZAÇÃO dos dados no BANCO DE DADOS:
+
+	- <form action="/update" method="post">
+
+		* action="/update": Para onde vai ENVIAR o 
+				    formulario. A ROTA '/update'.
+
+		* method="post": Atributo que 'autoriza' o ENVIO.
+
+
+  3- NO  SCRIPT 'index.js', Vamos CRIAR a ROTA de atualização de 
+     dados '/update':
+
+	- app.post('/update', (req, res)=> {...})
+
+	OBS.: NA FUNÇÃO CALLBACK, NESTE CASO, vamos COPIAR toda 
+	      a VALIDAÇÃO da ROTA CADASTRO(/cad) para validar os 
+	      dados EDITADOS.
+
+
+  4- Com a VALIDAÇÃO feita, se HOUVER ERRO vamos mostrar os erros:
+
+	-  if(erros.length > 0) {
+        	return res.status(400).send({status: 400, 
+		erro: erros});
+    	   };
+
+		* return res.status(400): RETORNA(return) a 
+					  RESPOSTA(res) com o 
+					  STATUS 400. Significa 
+					  que o servidor não pode
+					  processar a requisição 
+					  enviada devido a 
+					  problemas na própria 
+					  requisição.
+
+		* .send({status: 400, erro: erros}): 
+			Vai ENVIAR(.send) para a página o objeto{}
+			com o 'status' e o 'erro'(que contém o 
+			array de ERROS).
+
+
+  5- ATUALIZAR REGISTRO(salvar alterações) no banco de dados, 
+     usando o método do Sequilize '.update()':
+
+	- Usuario.update(
+        	{
+        	   nome: nome,
+       		   email: email.toLowerCase()
+        	},
+        
+       		{
+            	   where: {
+                	id: req.body.id
+            	}
+        }).then((resultado)=> {
+            return res.redirect('/users');
+      
+        }).catch((err)=> {
+            console.log(err);
+        });
+
+	EXPLICAÇÃO POR LINHA: 
+
+		1- Usuario.update({...},{...}): Método do 
+						Sequelize para
+						ATUALIZAR a tabela.
+
+			1° objeto: Colunas que serão ATUALIZADAS.
+
+				* nome: nome, : A COLUNA 'nome' 
+						recebe a variavel
+						'nome'.
+
+				* email: email.toLowerCase():
+					A COLUNA 'email' recebe a
+					variavel 'email' 
+					minusculas(toLowerCase).
+
+			2° objeto: ONDE será a alteração.
+
+				* where: req.body.id :
+					ONDE o ID da TABELA for 
+					IGUAL ao ID que o 
+					formulário enviou.
+
+
+
+
+
 
 BOOTSRAP
 
