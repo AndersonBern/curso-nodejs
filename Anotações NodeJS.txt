@@ -2393,7 +2393,9 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 
 		1- Usuario.update({...},{...}): Método do 
 						Sequelize para
-						ATUALIZAR a tabela.
+						ATUALIZAR a tabela
+
+		OBS.: 'Usuario' corresponde a TABELA.
 
 			1° objeto: Colunas que serão ATUALIZADAS.
 
@@ -2412,6 +2414,17 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 					ONDE o ID da TABELA for 
 					IGUAL ao ID que o 
 					formulário enviou.
+
+		2- .then(()=> {...}): Se der CERTO...E a função 
+				      callback:
+
+			* return res.redirect('/users'):
+				RETORNA E REDIRECIONA para a 
+				página '/users'.
+
+		3- .catch((err)=> {...}): Se der ERRADO...E a 
+					  função callback mostra o
+					  erro no terminal.
 
 
 
