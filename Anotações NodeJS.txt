@@ -1298,8 +1298,8 @@ usar-las em escopo GLOBAL.
 4- Acessar a SESSÃO em uma requisição e guardar valores.
 	
      Para acessar a sessão basta usar 'req.session', e para 
-     armazenar algum dado é necessário que coloque o nome da propriedade
-     depois:
+     armazenar algum dado é necessário que coloque o nome da 
+     propriedade depois:
          ex.: req.session.errors. 
      Neste caso para armazenar os erros. Daí é só dar o valor que
      a sessão irá guardar.
@@ -2322,7 +2322,7 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 			     do <input>.
 
 		* value="{{id}}": VALOR do <input>, recebe o ID
-				  da TABELA.
+				  do REGISTRO.
 
 
   2- Agora precisamos adicionar ao <form> os atributos 'action' e
@@ -2411,7 +2411,7 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 			2° objeto: ONDE será a alteração.
 
 				* where: req.body.id :
-					ONDE o ID da TABELA for 
+					ONDE o ID do REGISTRO for 
 					IGUAL ao ID que o 
 					formulário enviou.
 
@@ -2429,6 +2429,89 @@ a pagina de edição. Que no caso é 'editar.hbs'. Vamos criar um
 
 
 
+Para DELETAR registros na teabela do BANCO DE DADOS:
+
+1- No arquivo(users.hbs) na <div> do botão DELETAR. Vamos criar 
+um <form> que APONTA para a ROTA '/delete':
+
+	- <form action="/delete" method="post">...</form>
+	       
+		* action: Para APONTAR para a rota da pagina de
+			  EXCLUSÃO '/delete'.
+
+		* method='post': Para ENVIAR o formulário.
+
+
+2- Crie um INPUT OCULTO que receba o valor do ID do REGISTRO
+   em que o botão se encontra. 
+
+	- <form action="/delete" method="post">
+                  <input type="hidden" name="id" value="{{id}}">
+          </form>
+
+		* type="hidden": Para que o INPUT fique 
+		  OCULTO(hidden).
+
+		* name="id": O NOME, que por meio dele é feita a
+ 			     manipulação com JS.
+
+		* value="{{id}}": É o valor, que recebe o ID
+				  da tabela(item) da qual ele 
+				  pertence.
+
+
+3- Coloque o <button>(botão) dentro do <form>(formulário), para 
+   que ele DISPARE o envio do formulário para ROTA '/delete'.
+
+	- <form action="/delete" method="post">
+                  <input type="hidden" name="id" value="{{id}}">
+		  <button type='submit'>Deletar</button>
+          </form>
+
+	OBS.: É OBRIGATÓRIO que seja um <button>. Qualquer outro
+	      tipo de tag não vai disparar o envio do formulário. 
+
+
+4- NO CODIGO PRINCIPAL(index.js), vamos criar a ROTA '/delete':
+
+	-  app.post('/delete', (req, res)=> {...})
+
+5- Vamos utilizar o metodo do sequelize '.destroy()' para DELETAR
+   registros da tabela no BANCO DE DADOS.
+
+	- Usuario.destroy(
+       		{
+            	   where: {
+                	id: req.body.id
+            	}
+        }).then(()=> {
+            return res.redirect('/users');
+  
+        }).catch((err)=> {
+            console.log(err);
+        });
+
+	EXPLICAÇÃO POR LINHA: 
+
+		1- Usuario.destroy({...}): Método do Sequelize 
+					   para DELETAR registros.
+
+		2- where: {id: req.body.id} : 
+					ONDE o ID do REGISTRO for 
+					IGUAL ao ID que o 
+					formulário enviou, vai ser
+					DELETADO.
+
+		2- .then(()=> {...}): Se der CERTO...E a função 
+				      callback:
+
+			* return res.redirect('/users'):
+				RETORNA E REDIRECIONA para a 
+				página '/users'.
+
+		3- .catch((err)=> {...}): Se der ERRADO...E a 
+					  função callback mostra o
+					  erro no terminal.
 
 
 BOOTSRAP
